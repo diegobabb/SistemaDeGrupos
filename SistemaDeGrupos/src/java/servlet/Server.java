@@ -36,7 +36,7 @@ public class Server extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         switch (request.getServletPath()) {
-            case "/Servlet":
+            case "/Server":
                 this.LogIn(request, response);
                 break;
             case "/LogOut":
@@ -51,7 +51,7 @@ public class Server extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try {
             Usuario user = GestorUsuarios.obtenerInstancia().selectUsuario(
-                    request.getParameter("username"), request.getParameter("password"));
+                    request.getParameter("usuario"), request.getParameter("password"));
             if (user != null) {
                 System.out.println("%n ------- ESTUDIANTE : -------" + user);
                 request.getSession(true).setAttribute("usuario", user);
@@ -61,7 +61,8 @@ public class Server extends HttpServlet {
             }
 
         } catch (ClassNotFoundException | IllegalAccessException | InstantiationException | SQLException ex) {
-            System.err.printf(" --------------------------------------------------------------------Servicio Excepción: '%s'%n", ex.getMessage());
+            System.err.printf(" ------------------------"
+                    + "--------------------------------------------Servicio Excepción: '%s'%n", ex.getMessage());
             request.getRequestDispatcher("/index.jsp").forward(request, response);
         }
     }

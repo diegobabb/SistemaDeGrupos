@@ -12,7 +12,7 @@
             </header>
             <div id="contents">
                 <div id="table">
-                    <form action="ServletLogIn" method="POST">
+                    <form action="Server" method="POST">
                         <>
                         <table>
                             <thead>
