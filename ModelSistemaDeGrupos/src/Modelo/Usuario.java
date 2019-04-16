@@ -17,7 +17,7 @@ public class Usuario {
     public String apellido1;
     public String apellido2;
 
-    public Usuario(String id, String pass, String nombre, String apellido1, String apellido2) {
+    public Usuario(String id, String pass, String apellido1, String apellido2, String nombre) {
         this.id = id;
         this.pass = pass;
         this.nombre = nombre;
@@ -25,6 +25,10 @@ public class Usuario {
         this.apellido2 = apellido2;
     }
 
+    public Usuario() {
+    }
+
+// <editor-fold defaultstate="collapsed" desc="GET-SETS">
     public String getNombre() {
         return nombre;
     }
@@ -64,5 +68,5 @@ public class Usuario {
     public void setPass(String pass) {
         this.pass = pass;
     }
-
+//</editor-fold>
 }
