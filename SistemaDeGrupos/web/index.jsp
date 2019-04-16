@@ -12,7 +12,8 @@
             </header>
             <div id="contents">
                 <div id="table">
-                    <form action="ServletLogin" method="POST">
+                    <form action="ServletLogIn" method="POST">
+                        <>
                         <table>
                             <thead>
                             </thead>
@@ -32,7 +33,8 @@
                                         Usuario
                                     </td>
                                     <td>
-                                        <input id="campo" type="text" size="30" name="usuario" autocomplete="off">
+                                        <input id="username" type="text"
+                                               size="30" name="usuario" autocomplete="off">
                                     </td>
                                 </tr>
                                 <tr>
@@ -40,7 +42,8 @@
                                         Contraseña
                                     </td>
                                     <td>
-                                        <input id="campo" type="password" size="30" name="password" >
+                                        <input id="password"
+                                               type="password" size="30" name="password" >
                                     </td>
                                 </tr>
                                 <tr>
