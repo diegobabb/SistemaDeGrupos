@@ -55,7 +55,7 @@ public class Server extends HttpServlet {
             if (user != null) {
                 System.out.println("%n ------- ESTUDIANTE : -------" + user);
                 request.getSession(true).setAttribute("usuario", user);
-                request.getRequestDispatcher("/jsp.jsp").forward(request, response);
+                request.getRequestDispatcher("/principal.jsp").forward(request, response);
             } else {
                 request.getRequestDispatcher("/index.jsp").forward(request, response);
             }
@@ -71,7 +71,7 @@ public class Server extends HttpServlet {
         HttpSession session = request.getSession(true);
         session.removeAttribute("usuario");
         session.invalidate();
-        request.getRequestDispatcher("/Servlet").forward(request, response);
+        request.getRequestDispatcher("/Server").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
