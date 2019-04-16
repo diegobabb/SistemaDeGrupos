@@ -1,0 +1,96 @@
+table{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0%;
+    margin-top: 10%;
+}
+
+tbody{
+    padding: 20px;
+    background-color: #6c809a;
+    color: #ffffea;
+    border-radius: 5px;
+}
+
+#boton{
+    color: #ffffea;
+    background: #795663;
+}
+
+input, select{
+    border: 0px;
+    border-radius: 3px;
+}
+
+#campo{
+    padding: 5px;
+    margin-left: 5px;
+    margin-bottom: 5px;
+}
+
+#boton{
+    margin: 12px;
+    padding: 12px;
+    font-size: 14px;
+}
+
+body{
+    font-family: Helvetica Neue,Helvetica,Arial,sans-serif;
+    /*background-image: url("https://hdqwalls.com/download/pattern-minimalist-image-1440x900.jpg");*/
+    background-color: #ffffea;
+}
+
+#text{
+    text-align: right;
+}
+
+#link{
+    color: #ffffea;
+    text-align: center;
+}
+
+#titulo, #error{
+    text-align: center;
+    padding-bottom: 25px;
+}
+
+#error{
+    font-weight: bold;
+    color: #331832;
+    padding-top: 20px;
+}
+
+#tablaUsuarios{
+    border-collapse: collapse;
+}
+
+/*#tablaUsuarios, #tablaUsuarios th, #tablaUsuarios td {
+    border: 1px solid black;
+}*/
+
+#tablaUsuarios td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+#tablaUsuarios tr:nth-child(even) {
+    background-color: #75bba7;
+}
+
+#theader {
+    background-color: #795663;
+    color: white;
+}
+
+.header{
+    float: right;
+    background-color: #645244;
+}
+
+.header-right {
+    float: none;
+}
+
+

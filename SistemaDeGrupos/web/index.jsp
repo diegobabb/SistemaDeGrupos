@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Practica de Examen</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="style.css" rel="stylesheet" type="text/css"/>
+    </head>
+    <body>
+        <div id="wrapper">
+            <header>
+            </header>
+            <div id="contents">
+                <div id="table">
+                    <form action="ServletLogin" method="POST">
+                        <table>
+                            <thead>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td colspan="2" align="center">
+                                        <img src="https://img.icons8.com/cotton/100/000000/shopping.png">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th id="titulo" colspan="2">
+                                        Vamos a comprar!
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <td id="text">
+                                        Usuario
+                                    </td>
+                                    <td>
+                                        <input id="campo" type="text" size="30" name="usuario" autocomplete="off">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td id="text">
+                                        Contraseña
+                                    </td>
+                                    <td>
+                                        <input id="campo" type="password" size="30" name="password" >
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2" id="error">
+                                        <%
+                                            String error = (String) request.getAttribute("error");
+                                            if (error != null) {%>
+                                                <%=error%>
+                                            <%}%>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2" align="center">
+                                        <input id="boton" type="submit" value="Ingresar">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2" id="link">
+                                        <a id="link" href="agregar.jsp">Registrar nuevo usuario</a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                            </tfoot>
+                        </table>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
+
