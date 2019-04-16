@@ -19,12 +19,12 @@
                             <tbody>
                                 <tr>
                                     <td colspan="2" align="center">
-                                        <img src="https://img.icons8.com/cotton/100/000000/shopping.png">
+                                        <img src="https://img.icons8.com/doodle/100/000000/conference-call.png">
                                     </td>
                                 </tr>
                                 <tr>
                                     <th id="titulo" colspan="2">
-                                        Vamos a comprar!
+                                        Sistema de Grupos
                                     </th>
                                 </tr>
                                 <tr>
@@ -48,18 +48,13 @@
                                         <%
                                             String error = (String) request.getAttribute("error");
                                             if (error != null) {%>
-                                                <%=error%>
-                                            <%}%>
+                                        <%=error%>
+                                        <%}%>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td colspan="2" align="center">
                                         <input id="boton" type="submit" value="Ingresar">
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td colspan="2" id="link">
-                                        <a id="link" href="agregar.jsp">Registrar nuevo usuario</a>
                                     </td>
                                 </tr>
                             </tbody>

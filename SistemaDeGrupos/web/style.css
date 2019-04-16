@@ -8,14 +8,9 @@ table{
 
 tbody{
     padding: 20px;
-    background-color: #6c809a;
+    background-color: #ff6b6b;
     color: #ffffea;
     border-radius: 5px;
-}
-
-#boton{
-    color: #ffffea;
-    background: #795663;
 }
 
 input, select{
@@ -33,6 +28,8 @@ input, select{
     margin: 12px;
     padding: 12px;
     font-size: 14px;
+    color: #ffffea;
+    background: #1a535c;
 }
 
 body{
