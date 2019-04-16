@@ -22,7 +22,7 @@ import java.util.ArrayList;
  */
 public class GestorUsuarios {
 
-    private static final String BASE_DATOS = "BaseDeDatos";
+    private static final String BASE_DATOS = "basededatos";
     private static final String USUARIO_BD = "root";
     private static final String CLAVE_BD = "root";
     private DBManager db = null;//se inculye la biblioteca JBLib como Proyecto
@@ -127,7 +127,7 @@ public class GestorUsuarios {
                 Usuario u = new Usuario();
                 if (rs.next()) {
                     String idd = rs.getString("id");
-                    String pass = rs.getString("pass");
+                    String pass = rs.getString("clave");
                     String ap1 = rs.getString("apellido2");
                     String ap2 = rs.getString("apellido2");
                     String nombre = rs.getString("nombre");
