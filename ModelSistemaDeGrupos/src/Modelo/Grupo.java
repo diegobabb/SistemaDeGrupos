@@ -13,11 +13,14 @@ import java.util.ArrayList;
  */
 public class Grupo {
 
+    private int codigo;
     private String nombre;
     private ArrayList<Usuario> estudiantes;
 
-    public Grupo(String nombre) {
+    public Grupo(int codigo, String nombre) {
+        this.codigo = codigo;
         this.nombre = nombre;
+        estudiantes = new ArrayList<>();
     }
 
     public String getNombre() {
@@ -34,6 +37,22 @@ public class Grupo {
 
     public void setEstudiantes(ArrayList<Usuario> estudiantes) {
         this.estudiantes = estudiantes;
+    }
+
+    public int cant() {
+        int c = 0;
+        for (Usuario u : estudiantes) {
+            c++;
+        }
+        return c;
+    }
+
+    public boolean agregar(Usuario e) {
+        if (cant() <= 5) {
+            estudiantes.add(e);
+            return true;
+        }
+        return false;
     }
 
 }
