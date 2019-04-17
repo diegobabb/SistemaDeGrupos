@@ -53,14 +53,18 @@ public class Server extends HttpServlet {
             Usuario user = GestorUsuarios.obtenerInstancia().selectUsuario(
                     request.getParameter("usuario"), request.getParameter("password"));
             if (user != null) {
-                System.out.println("%n ------- ESTUDIANTE : -------" + user);
-                request.getSession(true).setAttribute("usuario", user);
+                // System.out.println("%n ------- ESTUDIANTE : -------" + user);
+                HttpSession session = request.getSession(true);
+                session.setAttribute("usuario", user);
+                session.setMaxInactiveInterval(30);
                 request.getRequestDispatcher("/principal.jsp").forward(request, response);
+
             } else {
                 request.getRequestDispatcher("/index.jsp").forward(request, response);
             }
 
-        } catch (ClassNotFoundException | IllegalAccessException | InstantiationException | SQLException ex) {
+        } catch (ClassNotFoundException | IllegalAccessException
+                | InstantiationException | SQLException | ServletException ex) {
             System.err.printf(" ------------------------"
                     + "--------------------------------------------Servicio Excepción: '%s'%n", ex.getMessage());
             request.getRequestDispatcher("/index.jsp").forward(request, response);
@@ -69,9 +73,10 @@ public class Server extends HttpServlet {
 
     private void LogOut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        HttpSession session = request.getSession(true);
+        HttpSession session = request.getSession(false);
         session.removeAttribute("usuario");
         session.invalidate();
+        session.getMaxInactiveInterval();
         request.getRequestDispatcher("/Server").forward(request, response);
     }
 
