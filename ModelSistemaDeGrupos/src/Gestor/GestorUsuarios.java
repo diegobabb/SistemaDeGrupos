@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Gestor;
 
 import Modelo.Enlace;
@@ -29,11 +24,11 @@ public class GestorUsuarios {
     private static GestorUsuarios instancia = null;
 
     private static final String INSERT_USUARIO
-            = "INSERT INTO usuario "
+            = "INSERT INTO estudiante "
             + "(id, apellido1, apellido2, nombre)"
             + " VALUES(?, ? , ?, ?);";
     private static final String INSERT_GRUPO
-            = "INSERT INTO grupo(codigo, nombre) VALUES"
+            = "INSERT INTO grupo (codigo, nombre) VALUES"
             + "(?, ?);";
     private static final String ENLAZAR
             = "INSERT INTO enlace (estudiante_id, grupo_codigo) "
@@ -43,10 +38,12 @@ public class GestorUsuarios {
             + " FROM curso;";
     private static final String SELECT_USUARIO
             = "SELECT  id, clave, apellido1, apellido2, nombre"
-            + " FROM eif209_prc1.estudiante"
+            + " FROM basededatos.estudiante"
             + " WHERE id = ? AND clave = ?;";
     private static final String TAM_GRUPO
             = "SELECT COUNT(*) FROM enlace WHERE grupo_codigo = ?;";
+    private static final String DESENLACE
+            = "DELETE FROM enlace WHERE estudiante_id = ?;";
 
     private GestorUsuarios()
             throws InstantiationException, ClassNotFoundException, IllegalAccessException {
@@ -111,6 +108,20 @@ public class GestorUsuarios {
         }
 
         return null;
+    }
+
+    public void abodonarGrupo(Usuario e) throws SQLException {
+
+        try (Connection cnx = db.getConnection(BASE_DATOS, USUARIO_BD, CLAVE_BD);
+                PreparedStatement stm = cnx.prepareStatement(DESENLACE)) {
+            stm.clearParameters();
+            stm.setString(1, e.getId());
+            if (stm.executeUpdate() != 1) {
+                throw new SQLException(String.format(
+                        "No se puede agregar al Grupo: '%s'", e));
+            }
+
+        }
     }
 
     public Usuario selectUsuario(String id, String Clave) throws SQLException {
