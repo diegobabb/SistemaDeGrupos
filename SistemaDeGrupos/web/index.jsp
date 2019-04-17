@@ -13,7 +13,6 @@
             <div id="contents">
                 <div id="table">
                     <form action="Server" method="POST">
-                        <>
                         <table>
                             <thead>
                             </thead>

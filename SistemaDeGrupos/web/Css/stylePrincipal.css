@@ -1,0 +1,110 @@
+
+/*
+    Created on : 31/03/2019, 02:19:22 PM
+    Author     : Diego Babb
+*/
+body{
+    font-family: Helvetica Neue,Helvetica,Arial,sans-serif;
+}
+
+#divicion, #table{
+    margin: 1%;
+    padding: 2%
+}
+#divicion{
+    background-color: #ffe66d;
+    border-radius: 3px;
+}
+#text{
+    text-align: right;
+}
+
+#botonesInput {
+    background-color: #4ecdc4;
+    border: none;
+    color: black;
+    padding: 16px 32px;
+    text-align: center;
+    font-size: 16px;
+    margin: 4px 2px;
+    transition: 0.3s;
+}
+
+#botonesInput:hover {
+    background-color: #ff6b6b;
+    color: white;
+}
+
+#botonesInput{
+    border-radius: 3px;
+    border: 0px;
+    padding: 8px;
+    margin: 1%;
+    background-color: #1a535c;
+    color: #f7fff7;
+}
+
+#cursos th {
+    margin: 0%;
+    background-color: #1a535c;
+    color: white;
+}
+
+#cursos tr:nth-child(even) {
+    background-color: lightgray;
+}
+
+#cursos tbody tr:hover {
+    background-color: #ff6b6b;
+}
+
+#cursos tbody tr {
+    border: none;
+    color: black;
+    padding: 16px 32px;
+    text-align: center;
+    font-size: 16px;
+    margin: 4px 2px;
+    transition: 0.3s;
+}
+
+#cursos th, #cursos td {
+    padding: 15px;
+    text-align: center;
+    width: 217px;
+    border: 0px;
+}
+
+#cursos{
+    justify-content: center;
+    align-items: center;
+    table-layout: fixed;
+    border-collapse: collapse;
+}
+
+#cursos tbody{
+    width: 500px;
+    display:block;
+    overflow: auto;
+    height: 25%;
+}
+
+#titulolc, caption{
+    font-size: 20px;
+    margin: 5%;
+}
+
+#error{
+    text-align: center;
+    font-weight: bold;
+    color: #fe5e41;
+    padding-top: 20px;
+}
+
+#principal{
+    justify-content: center;
+    align-items: center;
+    table-layout: fixed;
+    display: flex;
+    width: 100%;
+}

@@ -14,7 +14,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <script src="Script/requestJSON.js" type="text/javascript"></script>
         <script src="Script/script.js" type="text/javascript"></script>
-        <link href="CSS/style.css" rel="stylesheet" type="text/css"/>
+        <link href="Css/stylePrincipal.css" rel="stylesheet" type="text/css"/>
         <title>Examen</title>
         <% response.setHeader("cache-control", "no-cache, no-store, must-revalidate"); %>
         <%
@@ -26,13 +26,122 @@
     <body>
         <div id="wrapper">
             <div id="contents">
-                <div id="table">
-                    <table>
-                        <tr>
-                            <td id="titulolc" colspan="2" align="center">TITULO DE LA TABLA</td>
-                        </tr>
+                <div id="divicion">
+                    <div>
+                        <strong><%=request.getSession(true).getAttribute("usuario").toString()%></strong>
+                    </div>
+                    <div>
+                        <table>
+                            <tr>
+                                <td><input id="botonesInput" type="button" onclick="consultarUsuarios()" value="Consultar Usuarios"></td>
+                                <td><input id="botonesInput" type="button" onclick="consultarGrupos()" value="Consultar Grupos"></td>
+                                <td><input id="botonesInput" type="button" onclick="crearGrupo()" value="Crear Grupo"></td>
+                                <td><input id="botonesInput" type="button" onclick="logout()" value="Salir"></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div>
+                    <table id="principal">
                         <tbody>
-                        </tbody> 
+                            <tr>
+                                <th id="cursos" colspan="2">Mis cursos</th>
+                            </tr>
+                            <tr>
+                                <td id="cursos">
+                                    <table >
+                                        <caption>GRUPO 1</caption>
+                                        <thead>
+                                            <tr>
+                                                <th  id="titulolc" aling="center">
+                                                    POKEMONES
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="CurNoMat">
+                                            <tr>
+                                                <td>
+                                                    DIEGO
+                                                </td>
+                                                <td>
+                                                    BABB
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    NAOMI
+                                                </td>
+                                                <td>
+                                                    ROJAS
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    ENIBETH
+                                                </td>
+                                                <td>
+                                                    SANCHEZ
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    JOSUE
+                                                </td>
+                                                <td>
+                                                    RAMIREZ
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                                <td id="cursos">
+                                    <table >
+                                        <caption>GRUPO 1</caption>
+                                        <thead>
+                                            <tr>
+                                                <th  id="titulolc">
+                                                    DIGIMONES
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="CurMat">
+                                            <tr>
+                                                <td>
+                                                    DIEGO
+                                                </td>
+                                                <td>
+                                                    BABB
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    NAOMI
+                                                </td>
+                                                <td>
+                                                    ROJAS
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    ENIBETH
+                                                </td>
+                                                <td>
+                                                    SANCHEZ
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    JOSUE
+                                                </td>
+                                                <td>
+                                                    RAMIREZ
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+                        </tbody>
                     </table>
                 </div>
             </div>

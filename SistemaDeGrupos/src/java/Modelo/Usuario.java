@@ -28,6 +28,11 @@ public class Usuario {
     public Usuario() {
     }
 
+    @Override
+    public String toString() {
+        return id + ", " + nombre + ' ' + apellido1 + ' ' + apellido2;
+    }
+
 // <editor-fold defaultstate="collapsed" desc="GET-SETS">
     public String getNombre() {
         return nombre;
