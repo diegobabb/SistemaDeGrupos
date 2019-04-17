@@ -6,23 +6,20 @@
 package servlet;
 
 import Gestor.GestorUsuarios;
-import Modelo.Usuario;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  *
- * @author Sammy Guergachi <sguergachi at gmail.com>
+ * @author Diego Babb
  */
-@WebServlet(name = "Server", urlPatterns = {"/Server", "/LogOut"})
-public class Server extends HttpServlet {
+public class ServletConsultarUsuarios extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -35,46 +32,14 @@ public class Server extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        switch (request.getServletPath()) {
-            case "/Server":
-                this.LogIn(request, response);
-                break;
-            case "/LogOut":
-                this.LogOut(request, response);
-                break;
-
-        }
-    }
-
-    private void LogIn(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
         response.setContentType("text/html;charset=UTF-8");
-        try {
-            Usuario user = GestorUsuarios.obtenerInstancia().selectUsuario(
-                    request.getParameter("usuario"), request.getParameter("password"));
-            if (user != null) {
-                System.out.println("%n ------- ESTUDIANTE : -------" + user);
-                request.getSession(true).setAttribute("usuario", user);
-                request.getSession(true).setAttribute("cursos", GestorUsuarios.obtenerInstancia().grupos_x_estudiante(user.getId()));
-                request.getRequestDispatcher("/principal.jsp").forward(request, response);
-            } else {
-                request.setAttribute("error", "Usuario invalido");
-                request.getRequestDispatcher("index.jsp").forward(request, response);
-            }
-
-        } catch (ClassNotFoundException | IllegalAccessException | InstantiationException | SQLException ex) {
-            System.err.printf(" ------------------------"
-                    + "--------------------------------------------Servicio Excepción: '%s'%n", ex.getMessage());
-            request.getRequestDispatcher("/index.jsp").forward(request, response);
+        try (PrintWriter out = response.getWriter()) {
+            GestorUsuarios g = GestorUsuarios.obtenerInstancia();
+            request.getSession(true).setAttribute("usuarios", g.allUsuarios());
+            request.getRequestDispatcher("consultaUsuarios.jsp").forward(request, response);
+        } catch (InstantiationException | ClassNotFoundException | IllegalAccessException ex) {
+            Logger.getLogger(ServletConsultarGrupos.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }
-
-    private void LogOut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-        HttpSession session = request.getSession(true);
-        session.removeAttribute("usuario");
-        session.invalidate();
-        request.getRequestDispatcher("/Server").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

@@ -26,6 +26,10 @@ public class Grupo {
         nombre = "";
     }
 
+    public String toStringHTML() {
+        return String.format("<tr><th id=\"titulolc\">%s</th></tr>",nombre);
+    }
+
 // <editor-fold defaultstate="collapsed" desc="GET-SETS">
     public String getNombre() {
         return nombre;
@@ -39,5 +43,8 @@ public class Grupo {
         return codigo;
     }
 
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
+    }
 //</editor-fold>
 }

@@ -33,6 +33,13 @@ public class Usuario {
         return id + ", " + nombre + ' ' + apellido1 + ' ' + apellido2;
     }
 
+    public String toStringHTML(boolean b) {
+        if (b) {
+            return String.format("<tr><td>%s</td><td>%s %s</td></tr>", nombre, apellido1, apellido2);
+        }
+        return String.format("<tr><td>%s</td><td>%s</td><td>%s %s</td></tr>", id, nombre, apellido1, apellido2);
+    }
+
 // <editor-fold defaultstate="collapsed" desc="GET-SETS">
     public String getNombre() {
         return nombre;

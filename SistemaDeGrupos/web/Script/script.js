@@ -4,34 +4,29 @@ function logout() {
     document.botones.submit();
 }
 
-function datos() {
-    document.botones.action = "ServletDatos";
+function consultarUsuarios() {
+    document.botones.action = "ServletConsultarUsuarios";
     document.botones.submit();
 }
 
-function cursos() {
-    document.botones.action = "ServletMatricula";
+function consultarGrupos() {
+    document.botones.action = "ServletConsultarGrupos";
     document.botones.submit();
 }
 
-function matricular(row) {
-    var s = "ServletMatricular?curso=" + row.toString();
-    requestJSON(actualizar, s);
+function crearGrupo() {
+    document.botones.action = "ServletCrearGrupo";
+    document.botones.submit();
 }
 
-
-function desmatricular(row) {
-    var s = "ServletDesmatricular?curso=" + row.toString();
+function eliminar(row) {
+    var s = "ServletEliminarCurso?curso=" + row.toString();
     requestJSON(actualizar, s);
 }
 
 function actualizar(data) {
-    var refCurNoMat = document.getElementById("CurNoMat");
-    var refCurMat = document.getElementById("CurMat");
-    if (refCurNoMat) {
-        refCurNoMat.innerHTML = data.CurNoMat;
-    }
-    if (refCurMat) {
-        refCurMat.innerHTML = data.CurMat;
+    var refmiscursos = document.getElementById("miscursos");
+    if (refmiscursos) {
+        refmiscursos.innerHTML = data.miscursos;
     }
 }

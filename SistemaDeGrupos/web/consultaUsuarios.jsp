@@ -45,8 +45,13 @@
                 </div>
                 <div>
                     <table id="principal">
-                        <tbody id="miscursos">
-                            <%=request.getSession(true).getAttribute("cursos")%>
+                        <tbody id="cursos">
+                            <tr>
+                                <th>Identificacion</th>
+                                <th>Nombre</th>
+                                <th>Apellidos</th>
+                            </tr>
+                            <%=request.getSession(true).getAttribute("usuarios")%>
                         </tbody>
                     </table>
                 </div>

@@ -4,9 +4,49 @@
         <servlet-name>ServletLogin</servlet-name>
         <servlet-class>servlet.ServletLogin</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ServletLogout</servlet-name>
+        <servlet-class>servlet.ServletLogout</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ServletConsultarUsuarios</servlet-name>
+        <servlet-class>servlet.ServletConsultarUsuarios</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ServletConsultarGrupos</servlet-name>
+        <servlet-class>servlet.ServletConsultarGrupos</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ServletCrearGrupo</servlet-name>
+        <servlet-class>servlet.ServletCrearGrupo</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ServletEliminarCurso</servlet-name>
+        <servlet-class>servlet.ServletEliminarCurso</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ServletLogin</servlet-name>
         <url-pattern>/ServletLogin</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ServletLogout</servlet-name>
+        <url-pattern>/ServletLogout</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ServletConsultarUsuarios</servlet-name>
+        <url-pattern>/ServletConsultarUsuarios</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ServletConsultarGrupos</servlet-name>
+        <url-pattern>/ServletConsultarGrupos</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ServletCrearGrupo</servlet-name>
+        <url-pattern>/ServletCrearGrupo</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ServletEliminarCurso</servlet-name>
+        <url-pattern>/ServletEliminarCurso</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
