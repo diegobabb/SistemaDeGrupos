@@ -24,6 +24,10 @@
         <servlet-name>ServletEliminarCurso</servlet-name>
         <servlet-class>servlet.ServletEliminarCurso</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ServletAgregarCurso</servlet-name>
+        <servlet-class>servlet.ServletAgregarCurso</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ServletLogin</servlet-name>
         <url-pattern>/ServletLogin</url-pattern>
@@ -47,6 +51,10 @@
     <servlet-mapping>
         <servlet-name>ServletEliminarCurso</servlet-name>
         <url-pattern>/ServletEliminarCurso</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ServletAgregarCurso</servlet-name>
+        <url-pattern>/ServletAgregarCurso</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

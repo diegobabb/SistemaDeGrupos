@@ -18,12 +18,14 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import org.json.JSONObject;
 
 /**
  *
  * @author Diego Babb
  */
-public class ServletCrearGrupo extends HttpServlet {
+public class ServletAgregarCurso extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -35,24 +37,21 @@ public class ServletCrearGrupo extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, SQLException {
+            throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            GestorUsuarios gestor = GestorUsuarios.obtenerInstancia();
-            Usuario u = (Usuario) request.getSession(true).getAttribute("usuario");
-            if (gestor.crearGrupo(request.getParameter("nombre"))) {
-                Grupo G = gestor.selectNewGroup();
-                Enlace e = new Enlace(u, G);
-                gestor.enlazar(e);
-                if (G != null) {
-                    request.setAttribute("Msg", "Grupo agregado");
-                }
-            }
-            request.getSession(true).setAttribute("allcursos", gestor.allGruposLess(u.getId()));
-            request.getRequestDispatcher("crearGrupo.jsp").forward(request, response);
-        } catch (InstantiationException | ClassNotFoundException | IllegalAccessException
-                | IOException | SQLException ex) {
-            Logger.getLogger(ServletConsultarGrupos.class.getName()).log(Level.SEVERE, null, ex);
+            response.setContentType("text/html;charset=UTF-8");
+            JSONObject r = new JSONObject();
+            HttpSession sesion = request.getSession(true);
+            GestorUsuarios g = GestorUsuarios.obtenerInstancia();
+            Usuario u = (Usuario) sesion.getAttribute("usuario");
+            String curso = request.getParameter("curso");
+            Enlace e = new Enlace(u, new Grupo(Integer.parseInt(curso),null));
+            g.enlazar(e);
+            r.put("miscursos",  g.allGruposLess(u.getId()));
+            out.println(r);
+        } catch (SQLException | InstantiationException | ClassNotFoundException | IllegalAccessException ex) {
+            Logger.getLogger(ServletAgregarCurso.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -68,11 +67,7 @@ public class ServletCrearGrupo extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            processRequest(request, response);
-        } catch (SQLException ex) {
-            Logger.getLogger(ServletCrearGrupo.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        processRequest(request, response);
     }
 
     /**
@@ -86,11 +81,7 @@ public class ServletCrearGrupo extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            processRequest(request, response);
-        } catch (SQLException ex) {
-            Logger.getLogger(ServletCrearGrupo.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        processRequest(request, response);
     }
 
     /**

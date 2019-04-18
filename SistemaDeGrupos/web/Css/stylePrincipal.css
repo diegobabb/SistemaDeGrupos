@@ -110,3 +110,9 @@ caption{
     display: flex;
     width: 100%;
 }
+
+input{
+    padding: 5px;
+    border: 0px;
+    border-radius: 3px;
+}

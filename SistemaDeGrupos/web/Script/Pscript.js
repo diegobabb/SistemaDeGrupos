@@ -30,3 +30,8 @@ function actualizar(data) {
         refmiscursos.innerHTML = data.miscursos;
     }
 }
+
+function agregar(row) {
+    var s = "ServletAgregarCurso?curso=" + row.toString();
+    requestJSON(actualizar, s);
+}

@@ -15,7 +15,7 @@
         <script src="Script/requestJSON.js" type="text/javascript"></script>
         <script src="Script/Pscript.js" type="text/javascript"></script>
         <link href="Css/stylePrincipal.css" rel="stylesheet" type="text/css"/>
-        <title>Examen</title>
+        <title>>Sistema de Grupos</title>
         <% response.setHeader("cache-control", "no-cache, no-store, must-revalidate"); %>
         <%
             if (request.getSession(true).getAttribute("usuario") == null) {
@@ -36,7 +36,7 @@
                                 <tr>
                                     <td><input id="botonesInput" type="button" onclick="consultarUsuarios()" value="Consultar Usuarios"></td>
                                     <td><input id="botonesInput" type="button" onclick="consultarGrupos()" value="Consultar Grupos"></td>
-                                    <td><input id="botonesInput" type="button" onclick="crearGrupo()" value="Crear Grupo"></td>
+                                    <td><input id="botonesInput" type="button" onclick="crearGrupo()" value="Crear o Ingresar a Grupo"></td>
                                     <td><input id="botonesInput" type="button" onclick="logout()" value="Salir"></td>
                                 </tr>
                             </table>

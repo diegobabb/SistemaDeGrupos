@@ -14,7 +14,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
 
 /**
  *
@@ -39,8 +38,7 @@ public class GestorUsuarios {
             = "INSERT INTO enlace (estudiante_id, grupo_codigo) "
             + " VALUES(?,?);";
     private static final String SELECT_GRUPOS
-            = "SELECT nombre, codigo"
-            + " FROM curso;";
+            = "SELECT DISTINCT nombre, codigo FROM grupo, enlace WHERE grupo.codigo = enlace.grupo_codigo and enlace.estudiante_id <> ?;";
     private static final String SELECT_USUARIO
             = "SELECT  id, clave, apellido1, apellido2, nombre"
             + " FROM basededatos.estudiante"
@@ -107,7 +105,6 @@ public class GestorUsuarios {
     }
 
     public void enlazar(Enlace e) throws SQLException {
-
         try (Connection cnx = db.getConnection(BASE_DATOS, USUARIO_BD, CLAVE_BD);
                 PreparedStatement stm = cnx.prepareStatement(ENLAZAR)) {
             stm.clearParameters();
@@ -121,41 +118,63 @@ public class GestorUsuarios {
         }
     }
 
-    public void crearGrupo(String nombre) throws SQLException {
-
-        try (Connection cnx = db.getConnection(BASE_DATOS, USUARIO_BD, CLAVE_BD);
-                PreparedStatement stm = cnx.prepareStatement(INSERT_GRUPO)) {
-            stm.clearParameters();
-            stm.setString(1, nombre);
-            if (stm.executeUpdate() != 1) {
-                throw new SQLException(String.format(
-                        "No se puede agregar al Grupo: '%s'", nombre));
+    public boolean crearGrupo(String nombre) throws SQLException {
+        if (nombre != null) {
+            try (Connection cnx = db.getConnection(BASE_DATOS, USUARIO_BD, CLAVE_BD);
+                    PreparedStatement stm = cnx.prepareStatement(INSERT_GRUPO)) {
+                stm.clearParameters();
+                stm.setString(1, nombre);
+                if (stm.executeUpdate() != 1) {
+                    throw new SQLException(String.format(
+                            "No se puede agregar al Grupo: '%s'", nombre));
+                }
+                return true;
+            } catch (Exception e) {
+                System.out.println("Excepcion crearGrupo" + e.getMessage());
             }
-
-        } catch (Exception e) {
-            System.out.println("Excepcion crearGrupo" + e.getMessage());
         }
-
+        return false;
     }
 
-    public ArrayList<Grupo> allGrupos(int cod) throws SQLException {
-
+    public String allGruposLess(String id) throws SQLException {
         try (Connection cnx = db.getConnection(BASE_DATOS, USUARIO_BD, CLAVE_BD);
-                Statement stm = cnx.createStatement();
-                ResultSet rs = stm.executeQuery(SELECT_GRUPOS)) {
-            ArrayList<Grupo> Grupos = new ArrayList<>();
-            while (rs.next()) {
-                Grupo g;
-                String nombre = rs.getString("nombre");
-                g = new Grupo(cod, nombre);
-                Grupos.add(g);
+                PreparedStatement stm = cnx.prepareStatement(SELECT_GRUPOS)) {
+            stm.clearParameters();
+            stm.setString(1, id);
+            try (ResultSet rs = stm.executeQuery()) {
+                Grupo g = new Grupo();
+                StringBuilder r = new StringBuilder();
+                int fila = 0;
+                boolean cerrar = true;
+                int cont = 1;
+                while (rs.next()) {
+                    if (fila % 2 == 0) {
+                        if (cerrar) {
+                            r.append("<tr>");
+                        } else {
+                            r.append("</tr>");
+                        }
+                        cerrar = !cerrar;
+                    }
+                    fila++;
+                    String nn = rs.getString("nombre");
+                    int cc = rs.getInt("codigo");
+                    g.setNombre(nn);
+                    g.setCodigo(cc);
+                    r.append(String.format("<td id=\"cursos\"><table onclick=\"agregar('%s')\">", cc));
+                    r.append(String.format("<caption>GRUPO %d</caption>", cont++));
+                    r.append("<thead>");
+                    r.append(g.toStringHTML());
+                    r.append("</thead>");
+                    r.append("<tbody>");
+                    r.append(estudiantes_x_grupo(cc, cnx));
+                    r.append("</tbody></table></td>");
+                }
+                return r.toString();
+            } catch (Exception e) {
+                return e.getMessage();
             }
-            return Grupos;
-        } catch (Exception e) {
-            System.out.println("Excepcion AllGrupos" + e.getMessage());
         }
-
-        return null;
     }
 
     public void abodonarGrupo(String e, String g) throws SQLException {

@@ -36,19 +36,19 @@
                                 <tr>
                                     <td><input id="botonesInput" type="button" onclick="consultarUsuarios()" value="Consultar Usuarios"></td>
                                     <td><input id="botonesInput" type="button" onclick="consultarGrupos()" value="Consultar Grupos"></td>
-                                    <td><input id="botonesInput" type="button" value="Crear Grupo"></td>
+                                    <td><input id="botonesInput" type="button" onclick="crearGrupo()" value="Crear o Ingresar a Grupo"></td>
                                     <td><input id="botonesInput" type="button" onclick="logout()" value="Salir"></td>
                                 </tr>
                             </table>
                         </form>
                     </div>
                 </div>
-                <div id="centrar">
+                <div id="divicion">
                     <form action="ServletCrearGrupo" method="POST">
                         <table>
                             <tr>
                                 <td>
-                                    Nombre de grupo
+                                    <strong>Nombre de grupo</strong>
                                 </td>
                             </tr>
                             <tr>
@@ -73,6 +73,13 @@
                             </tr>
                         </table>
                     </form>
+                </div>
+                <div>
+                    <table id="principal">
+                        <tbody id="miscursos">
+                            <%=request.getSession(true).getAttribute("allcursos")%>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
