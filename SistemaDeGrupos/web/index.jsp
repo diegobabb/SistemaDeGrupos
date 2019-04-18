@@ -1,7 +1,14 @@
+<%--
+    EIF209 - Programación 4 ? Proyecto #1
+    Abril 2019
+    Autores:
+    - 116960863 Diego Babbb
+    - 116920756 Naomi Rojas
+--%>
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Practica de Examen</title>
+        <title>Sistema de Grupos</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link href="Css/style.css" rel="stylesheet" type="text/css"/>

@@ -1,14 +1,12 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+    EIF209 - Programación 4 – Proyecto #1
+    Abril 2019
+    Autores:
+    - 116960863 Diego Babbb
+    - 116920756 Naomi Rojas
  */
 package Modelo;
 
-/**
- *
- * @author Sammy Guergachi <sguergachi at gmail.com>
- */
 public class Enlace {
 
     private Usuario u;

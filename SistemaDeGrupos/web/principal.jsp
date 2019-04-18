@@ -1,9 +1,10 @@
 <%--
-    Document   : listaCursos
-    Created on : 31/03/2019, 04:15:32 PM
-    Author     : Diego Babb
+    EIF209 - Programación 4 – Proyecto #1
+    Abril 2019
+    Autores:
+    - 116960863 Diego Babbb
+    - 116920756 Naomi Rojas
 --%>
-
 <%@page import="java.util.Calendar"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.text.DateFormat"%>
