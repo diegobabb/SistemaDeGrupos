@@ -13,7 +13,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <script src="Script/requestJSON.js" type="text/javascript"></script>
-        <script src="Script/script.js" type="text/javascript"></script>
+        <script src="Script/Pscript.js" type="text/javascript"></script>
         <link href="Css/stylePrincipal.css" rel="stylesheet" type="text/css"/>
         <title>Examen</title>
         <% response.setHeader("cache-control", "no-cache, no-store, must-revalidate"); %>

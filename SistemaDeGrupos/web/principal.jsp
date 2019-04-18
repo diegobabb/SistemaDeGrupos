@@ -13,7 +13,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <script src="Script/requestJSON.js" type="text/javascript"></script>
-        <script src="Script/script.js" type="text/javascript"></script>
+        <script src="Script/Pscript.js" type="text/javascript"></script>
         <link href="Css/stylePrincipal.css" rel="stylesheet" type="text/css"/>
         <title>Examen</title>
         <% response.setHeader("cache-control", "no-cache, no-store, must-revalidate"); %>
@@ -36,7 +36,12 @@
                                 <tr>
                                     <td><input id="botonesInput" type="button" onclick="consultarUsuarios()" value="Consultar Usuarios"></td>
                                     <td><input id="botonesInput" type="button" onclick="consultarGrupos()" value="Consultar Grupos"></td>
-                                    <td><input id="botonesInput" type="button" onclick="crearGrupo()" value="Crear Grupo"></td>
+                                    <td>
+                                        <a href="crearGrupo.jsp">
+                                            <input id="botonesInput" type="button" value="Crear Grupo">
+                                        </a>
+
+                                    </td>
                                     <td><input id="botonesInput" type="button" onclick="logout()" value="Salir"></td>
                                 </tr>
                             </table>

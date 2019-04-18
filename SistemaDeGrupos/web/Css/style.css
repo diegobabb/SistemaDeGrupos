@@ -89,5 +89,8 @@ body{
 .header-right {
     float: none;
 }
-
+#centrar{
+    margin: 0 auto;
+    width: 200px;
+}
 

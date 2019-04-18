@@ -13,21 +13,21 @@ import java.util.ArrayList;
  */
 public class Grupo {
 
-    private String codigo;
+    private int codigo;
     private String nombre;
 
-    public Grupo(String codigo, String nombre) {
+    public Grupo(int codigo, String nombre) {
         this.codigo = codigo;
         this.nombre = nombre;
     }
 
     public Grupo() {
-        codigo = "";
+        codigo = 0;
         nombre = "";
     }
 
     public String toStringHTML() {
-        return String.format("<tr><th id=\"titulolc\">%s</th></tr>",nombre);
+        return String.format("<tr><th id=\"titulolc\">%s</th></tr>", nombre);
     }
 
 // <editor-fold defaultstate="collapsed" desc="GET-SETS">
@@ -39,11 +39,11 @@ public class Grupo {
         this.nombre = nombre;
     }
 
-    public String getCodigo() {
+    public int getCodigo() {
         return codigo;
     }
 
-    public void setCodigo(String codigo) {
+    public void setCodigo(int codigo) {
         this.codigo = codigo;
     }
 //</editor-fold>

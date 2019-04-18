@@ -13,7 +13,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <script src="Script/requestJSON.js" type="text/javascript"></script>
-        <script src="Script/script.js" type="text/javascript"></script>
+        <script src="Script/Pscript.js" type="text/javascript"></script>
         <link href="Css/stylePrincipal.css" rel="stylesheet" type="text/css"/>
         <title>Examen</title>
         <% response.setHeader("cache-control", "no-cache, no-store, must-revalidate"); %>
@@ -36,15 +36,43 @@
                                 <tr>
                                     <td><input id="botonesInput" type="button" onclick="consultarUsuarios()" value="Consultar Usuarios"></td>
                                     <td><input id="botonesInput" type="button" onclick="consultarGrupos()" value="Consultar Grupos"></td>
-                                    <td><input id="botonesInput" type="button" onclick="crearGrupo()" value="Crear Grupo"></td>
+                                    <td><input id="botonesInput" type="button" value="Crear Grupo"></td>
                                     <td><input id="botonesInput" type="button" onclick="logout()" value="Salir"></td>
                                 </tr>
                             </table>
                         </form>
                     </div>
                 </div>
-                <div>
-                    <--trabaje aqui-->
+                <div id="centrar">
+                    <form action="ServletCrearGrupo" method="POST">
+                        <table>
+                            <tr>
+                                <td>
+                                    Nombre de grupo
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <input type="text" name="nombre">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <input type="submit" id="botonesInput" onclick="crearGrupo()" value="Agregar">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                            <bold>
+                                <% String msg = (String) request.getAttribute("Msg");
+                                    if (msg != null) {%>
+                                <%= msg%>
+                                <%}%>
+                            </bold>
+                            </td>
+                            </tr>
+                        </table>
+                    </form>
                 </div>
             </div>
         </div>

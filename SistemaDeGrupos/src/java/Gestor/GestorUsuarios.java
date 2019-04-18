@@ -33,8 +33,8 @@ public class GestorUsuarios {
             + "(id, apellido1, apellido2, nombre)"
             + " VALUES(?, ? , ?, ?);";
     private static final String INSERT_GRUPO
-            = "INSERT INTO grupo (codigo, nombre) VALUES"
-            + "(?, ?);";
+            = "INSERT INTO grupo (nombre) VALUES"
+            + "(?);";
     private static final String ENLAZAR
             = "INSERT INTO enlace (estudiante_id, grupo_codigo) "
             + " VALUES(?,?);";
@@ -57,6 +57,8 @@ public class GestorUsuarios {
             = "SELECT grupo.nombre, grupo.codigo FROM grupo, enlace where enlace.estudiante_id = ? and grupo.codigo = enlace.grupo_codigo;";
     private static final String ESTUDIANTE_X_GRUPOS
             = "SELECT estudiante.apellido1, estudiante.apellido2, estudiante.nombre FROM estudiante, enlace where ? = enlace.grupo_codigo and enlace.estudiante_id = estudiante.id;";
+
+    private static final String SELECT_LAST = "SELECT * FROM basededatos.grupo ORDER BY codigo DESC LIMIT 1;";
 
     private GestorUsuarios()
             throws InstantiationException, ClassNotFoundException, IllegalAccessException {
@@ -88,13 +90,29 @@ public class GestorUsuarios {
 
     }
 
+    public Grupo selectNewGroup() {
+        try (Connection cnx = db.getConnection(BASE_DATOS, USUARIO_BD, CLAVE_BD);
+                Statement stm = cnx.createStatement();
+                ResultSet rs = stm.executeQuery(SELECT_LAST)) {
+            if (rs.next()) {
+                int id = rs.getInt("codigo");
+                String nombre = rs.getString("nombre");
+                Grupo g = new Grupo(id, nombre);
+                return g;
+            }
+        } catch (Exception e) {
+            System.out.println("Excepcion RESUT SET SelectUsuario" + e.getMessage());
+        }
+        return null;
+    }
+
     public void enlazar(Enlace e) throws SQLException {
 
         try (Connection cnx = db.getConnection(BASE_DATOS, USUARIO_BD, CLAVE_BD);
                 PreparedStatement stm = cnx.prepareStatement(ENLAZAR)) {
             stm.clearParameters();
             stm.setString(1, e.getU().getId());
-            stm.setString(2, e.getG().getCodigo());
+            stm.setInt(2, e.getG().getCodigo());
             if (stm.executeUpdate() != 1) {
                 throw new SQLException(String.format(
                         "No se puede agregar al Grupo: '%s'", e));
@@ -103,7 +121,24 @@ public class GestorUsuarios {
         }
     }
 
-    public ArrayList<Grupo> allGrupos(String cod) throws SQLException {
+    public void crearGrupo(String nombre) throws SQLException {
+
+        try (Connection cnx = db.getConnection(BASE_DATOS, USUARIO_BD, CLAVE_BD);
+                PreparedStatement stm = cnx.prepareStatement(INSERT_GRUPO)) {
+            stm.clearParameters();
+            stm.setString(1, nombre);
+            if (stm.executeUpdate() != 1) {
+                throw new SQLException(String.format(
+                        "No se puede agregar al Grupo: '%s'", nombre));
+            }
+
+        } catch (Exception e) {
+            System.out.println("Excepcion crearGrupo" + e.getMessage());
+        }
+
+    }
+
+    public ArrayList<Grupo> allGrupos(int cod) throws SQLException {
 
         try (Connection cnx = db.getConnection(BASE_DATOS, USUARIO_BD, CLAVE_BD);
                 Statement stm = cnx.createStatement();
@@ -191,7 +226,7 @@ public class GestorUsuarios {
                     }
                     fila++;
                     String nn = rs.getString("nombre");
-                    String cc = rs.getString("codigo");
+                    int cc = rs.getInt("codigo");
                     g.setNombre(nn);
                     g.setCodigo(cc);
                     r.append(String.format("<td id=\"cursos\"><table onclick=\"eliminar('%s')\">", cc));
@@ -215,10 +250,10 @@ public class GestorUsuarios {
         return null;
     }
 
-    private String estudiantes_x_grupo(String cc, Connection cnx) {
+    private String estudiantes_x_grupo(int cc, Connection cnx) {
         try (PreparedStatement stm = cnx.prepareStatement(ESTUDIANTE_X_GRUPOS)) {
             stm.clearParameters();
-            stm.setString(1, cc);
+            stm.setInt(1, cc);
             try (ResultSet rs = stm.executeQuery()) {
                 Usuario u = new Usuario();
                 StringBuilder r = new StringBuilder();
