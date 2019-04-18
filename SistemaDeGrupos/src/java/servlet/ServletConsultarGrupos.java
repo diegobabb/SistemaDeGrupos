@@ -5,8 +5,13 @@
  */
 package servlet;
 
+import Gestor.GestorUsuarios;
+import Modelo.Usuario;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -31,7 +36,11 @@ public class ServletConsultarGrupos extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
+            Usuario u = (Usuario) request.getSession(true).getAttribute("usuario");
+            request.getSession(true).setAttribute("cursos", GestorUsuarios.obtenerInstancia().grupos_x_estudiante(u.getId()));
             request.getRequestDispatcher("principal.jsp").forward(request, response);
+        } catch (InstantiationException | ClassNotFoundException | IllegalAccessException | SQLException ex) {
+            Logger.getLogger(ServletConsultarGrupos.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
