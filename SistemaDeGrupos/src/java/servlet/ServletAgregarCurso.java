@@ -8,8 +8,6 @@
 package servlet;
 
 import Gestor.GestorUsuarios;
-import Modelo.Enlace;
-import Modelo.Grupo;
 import Modelo.Usuario;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -25,15 +23,6 @@ import org.json.JSONObject;
 
 public class ServletAgregarCurso extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -43,10 +32,9 @@ public class ServletAgregarCurso extends HttpServlet {
             HttpSession sesion = request.getSession(true);
             GestorUsuarios g = GestorUsuarios.obtenerInstancia();
             Usuario u = (Usuario) sesion.getAttribute("usuario");
-            String curso = request.getParameter("curso");
-            Enlace e = new Enlace(u, new Grupo(Integer.parseInt(curso),null));
-            g.enlazar(e);
-            r.put("miscursos",  g.allGruposLess(u.getId()));
+            String curso = request.getParameter("grupo");
+            g.enlazar(u, curso);
+            r.put("miscursos", g.allGruposLess(u.getGrupo_id()));
             out.println(r);
         } catch (SQLException | InstantiationException | ClassNotFoundException | IllegalAccessException ex) {
             Logger.getLogger(ServletAgregarCurso.class.getName()).log(Level.SEVERE, null, ex);

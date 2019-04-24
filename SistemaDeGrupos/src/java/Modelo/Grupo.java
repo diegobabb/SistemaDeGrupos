@@ -9,24 +9,44 @@ package Modelo;
 
 public class Grupo {
 
-    private int codigo;
-    private String nombre;
-
-    public Grupo(int codigo, String nombre) {
-        this.codigo = codigo;
-        this.nombre = nombre;
-    }
+    int id;
+    int secuencia;
+    String nombre;
+    int cupo;
+    int activo;
 
     public Grupo() {
-        codigo = 0;
-        nombre = "";
+        this(-1, -1, null, -1, -1);
+    }
+
+    public Grupo(int id, int secuencia, String nombre, int cupo, int activo) {
+        this.id = id;
+        this.secuencia = secuencia;
+        this.nombre = nombre;
+        this.cupo = cupo;
+        this.activo = activo;
     }
 
     public String toStringHTML() {
         return String.format("<tr><th id=\"titulolc\">%s</th></tr>", nombre);
     }
 
-// <editor-fold defaultstate="collapsed" desc="GET-SETS">
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getSecuencia() {
+        return secuencia;
+    }
+
+    public void setSecuencia(int secuencia) {
+        this.secuencia = secuencia;
+    }
+
     public String getNombre() {
         return nombre;
     }
@@ -35,12 +55,20 @@ public class Grupo {
         this.nombre = nombre;
     }
 
-    public int getCodigo() {
-        return codigo;
+    public int getCupo() {
+        return cupo;
     }
 
-    public void setCodigo(int codigo) {
-        this.codigo = codigo;
+    public void setCupo(int cupo) {
+        this.cupo = cupo;
     }
-//</editor-fold>
+
+    public int getActivo() {
+        return activo;
+    }
+
+    public void setActivo(int activo) {
+        this.activo = activo;
+    }
+
 }

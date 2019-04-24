@@ -38,6 +38,6 @@ function actualizar(data) {
 }
 
 function agregar(row) {
-    var s = "ServletAgregarCurso?curso=" + row.toString();
+    var s = "ServletAgregarCurso?grupo=" + row.toString();
     requestJSON(actualizar, s);
 }

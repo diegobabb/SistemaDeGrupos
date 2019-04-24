@@ -8,8 +8,6 @@
 package servlet;
 
 import Gestor.GestorUsuarios;
-import Modelo.Enlace;
-import Modelo.Grupo;
 import Modelo.Usuario;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -33,20 +31,17 @@ public class ServletCrearGrupo extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, SQLException {
+            throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             GestorUsuarios gestor = GestorUsuarios.obtenerInstancia();
             Usuario u = (Usuario) request.getSession(true).getAttribute("usuario");
-            if (gestor.crearGrupo(request.getParameter("nombre"))) {
-                Grupo G = gestor.selectNewGroup();
-                Enlace e = new Enlace(u, G);
-                gestor.enlazar(e);
-                if (G != null) {
-                    request.setAttribute("Msg", "Grupo agregado");
-                }
+            String n = request.getParameter("nombre");
+            if (gestor.crearGrupo(n)) {
+                gestor.enlazar(u, n);
+                request.setAttribute("Msg", "Grupo agregado");
             }
-            request.getSession(true).setAttribute("allcursos", gestor.allGruposLess(u.getId()));
+            request.getSession(true).setAttribute("allcursos", gestor.allGruposLess(u.getGrupo_id()));
             request.getRequestDispatcher("crearGrupo.jsp").forward(request, response);
         } catch (InstantiationException | ClassNotFoundException | IllegalAccessException
                 | IOException | SQLException ex) {
@@ -66,11 +61,7 @@ public class ServletCrearGrupo extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            processRequest(request, response);
-        } catch (SQLException ex) {
-            Logger.getLogger(ServletCrearGrupo.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        processRequest(request, response);
     }
 
     /**
@@ -84,11 +75,7 @@ public class ServletCrearGrupo extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            processRequest(request, response);
-        } catch (SQLException ex) {
-            Logger.getLogger(ServletCrearGrupo.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        processRequest(request, response);
     }
 
     /**

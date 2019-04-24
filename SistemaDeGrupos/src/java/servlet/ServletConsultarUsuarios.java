@@ -33,7 +33,7 @@ public class ServletConsultarUsuarios extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             GestorUsuarios g = GestorUsuarios.obtenerInstancia();
-            request.getSession(true).setAttribute("usuarios", g.allUsuarios());
+            request.getSession(true).setAttribute("usuarios", g.selectUsuarios());
             request.getRequestDispatcher("consultaUsuarios.jsp").forward(request, response);
         } catch (InstantiationException | ClassNotFoundException | IllegalAccessException ex) {
             Logger.getLogger(ServletConsultarGrupos.class.getName()).log(Level.SEVERE, null, ex);

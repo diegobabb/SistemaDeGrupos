@@ -40,10 +40,9 @@ public class ServletEliminarCurso extends HttpServlet {
             HttpSession sesion = request.getSession(true);
             GestorUsuarios g = GestorUsuarios.obtenerInstancia();
             Usuario u = (Usuario) sesion.getAttribute("usuario");
-            String curso = request.getParameter("curso");
             //Hacer la Validacion por si no se puede matricular
-            g.abodonarGrupo(u.getId(), curso);
-            r.put("miscursos", g.grupos_x_estudiante(u.getId()));
+            g.abodonarGrupo(u.getId());
+            r.put("miscursos", g.selectGrupoWhereEstudiante(u.getGrupo_id()));
             out.println(r);
         } catch (InstantiationException | ClassNotFoundException | IllegalAccessException | SQLException ex) {
             Logger.getLogger(ServletEliminarCurso.class.getName()).log(Level.SEVERE, null, ex);
