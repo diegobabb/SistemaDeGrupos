@@ -15,7 +15,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <script src="Script/requestJSON.js" type="text/javascript"></script>
-        <script src="Script/script.js" type="text/javascript"></script>
+        <script src="Script/funciones.js" type="text/javascript"></script>
         <link href="Css/stylePrincipal.css" rel="stylesheet" type="text/css"/>
         <title>Sistema de Grupos</title>
         <% response.setHeader("cache-control", "no-cache, no-store, must-revalidate"); %>
@@ -37,7 +37,7 @@
                             <table>
                                 <tr>
                                     <td><input id="botonesInput" type="button" onclick="consultarUsuarios()" value="Consultar Usuarios"></td>
-                                    <td><input id="botonesInput" type="button" onclick="consultarGrupos()" value="Consultar Grupos"></td>
+                                    <td><input id="botonesInput" type="button" onclick="consultarGrupos()" value="Mi grupo"></td>
                                     <td><input id="botonesInput" type="button" onclick="crearGrupo()" value="Crear o Ingresar a Grupo"></td>
                                     <td><input id="botonesInput" type="button" onclick="logout()" value="Salir"></td>
                                 </tr>

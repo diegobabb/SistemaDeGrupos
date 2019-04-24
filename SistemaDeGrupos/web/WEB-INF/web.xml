@@ -1,60 +1,60 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
     <servlet>
-        <servlet-name>ServletLogin</servlet-name>
-        <servlet-class>servlet.ServletLogin</servlet-class>
+        <servlet-name>Server</servlet-name>
+        <servlet-class>servlet.Server</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>ServletLogout</servlet-name>
-        <servlet-class>servlet.ServletLogout</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>ServletConsultarUsuarios</servlet-name>
-        <servlet-class>servlet.ServletConsultarUsuarios</servlet-class>
+        <servlet-name>ServletAgregarGrupo</servlet-name>
+        <servlet-class>servlet.ServletAgregarGrupo</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>ServletConsultarGrupos</servlet-name>
         <servlet-class>servlet.ServletConsultarGrupos</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>ServletConsultarUsuarios</servlet-name>
+        <servlet-class>servlet.ServletConsultarUsuarios</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>ServletCrearGrupo</servlet-name>
         <servlet-class>servlet.ServletCrearGrupo</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>ServletEliminarCurso</servlet-name>
-        <servlet-class>servlet.ServletEliminarCurso</servlet-class>
+        <servlet-name>ServletEliminarGrupo</servlet-name>
+        <servlet-class>servlet.ServletEliminarGrupo</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>ServletAgregarCurso</servlet-name>
-        <servlet-class>servlet.ServletAgregarCurso</servlet-class>
+        <servlet-name>ServletLogout</servlet-name>
+        <servlet-class>servlet.ServletLogout</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>ServletLogin</servlet-name>
-        <url-pattern>/ServletLogin</url-pattern>
+        <servlet-name>Server</servlet-name>
+        <url-pattern>/Server</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>ServletLogout</servlet-name>
-        <url-pattern>/ServletLogout</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>ServletConsultarUsuarios</servlet-name>
-        <url-pattern>/ServletConsultarUsuarios</url-pattern>
+        <servlet-name>ServletAgregarGrupo</servlet-name>
+        <url-pattern>/ServletAgregarGrupo</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ServletConsultarGrupos</servlet-name>
         <url-pattern>/ServletConsultarGrupos</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
+        <servlet-name>ServletConsultarUsuarios</servlet-name>
+        <url-pattern>/ServletConsultarUsuarios</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
         <servlet-name>ServletCrearGrupo</servlet-name>
         <url-pattern>/ServletCrearGrupo</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>ServletEliminarCurso</servlet-name>
-        <url-pattern>/ServletEliminarCurso</url-pattern>
+        <servlet-name>ServletEliminarGrupo</servlet-name>
+        <url-pattern>/ServletEliminarGrupo</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>ServletAgregarCurso</servlet-name>
-        <url-pattern>/ServletAgregarCurso</url-pattern>
+        <servlet-name>ServletLogout</servlet-name>
+        <url-pattern>/ServletLogout</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

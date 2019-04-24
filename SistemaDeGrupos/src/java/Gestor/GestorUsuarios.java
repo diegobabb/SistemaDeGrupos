@@ -16,6 +16,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class GestorUsuarios {
 
@@ -64,13 +66,13 @@ public class GestorUsuarios {
     private static final String ENLAZAR
             = "UPDATE `eif209_1901_p01`.`estudiante` SET `grupo_id` = ? WHERE (`id` = ?);";
 
-    public void enlazar(Usuario u, String c) throws SQLException {
-        if (c != null && u != null) {
+    public void enlazar(Usuario u, int c) throws SQLException {
+        if (c != -1 && u != null) {
             try (Connection cnx = db.getConnection(BASE_DATOS, USUARIO_BD, CLAVE_BD);
                     PreparedStatement stm = cnx.prepareStatement(ENLAZAR)) {
                 stm.clearParameters();
-                stm.setString(1, u.getId());
-                stm.setInt(2, Integer.parseInt(c));
+                stm.setInt(1, c);
+                stm.setString(2, u.getId());
                 if (stm.executeUpdate() != 1) {
                     throw new SQLException(String.format(
                             "No se puede agregar al Grupo: '%s'", u));
@@ -79,29 +81,45 @@ public class GestorUsuarios {
         }
     }
 
+    private static final String MAX_ID_GRUPO
+            = "SELECT MAX(id) AS id FROM grupo;";
+
+    public int ultimoID(Connection cnx) {
+        try (Statement stm = cnx.createStatement();
+                ResultSet rst = stm.executeQuery(MAX_ID_GRUPO)) {
+            int t = -1;
+            if (rst.next()) {
+                t = (rst.getInt(1) + 1);
+            }
+            return t;
+        } catch (SQLException ex) {
+            return -1;
+        }
+    }
+
     private static final String INSERT_GRUPO
             = "INSERT INTO `eif209_1901_p01`.`grupo` (`id`, `secuencia`, `nombre`, `cupo`) VALUES (?, ?, ?, ?);";
 
-    public boolean crearGrupo(String nombre) throws SQLException {
+    public int crearGrupo(String nombre) throws SQLException {
         if (nombre != null) {
             try (Connection cnx = db.getConnection(BASE_DATOS, USUARIO_BD, CLAVE_BD);
                     PreparedStatement stm = cnx.prepareStatement(INSERT_GRUPO)) {
+                int t = ultimoID(cnx);
                 stm.clearParameters();
-                stm.setInt(1, 0);
-                stm.setInt(2, 0);
+                stm.setInt(1, t);
+                stm.setInt(2, t);
                 stm.setString(3, nombre);
                 stm.setInt(4, 1);
-                stm.setInt(5, 1);
                 if (stm.executeUpdate() != 1) {
                     throw new SQLException(String.format(
                             "No se puede agregar al Grupo: '%s'", nombre));
                 }
-                return true;
+                return t;
             } catch (Exception e) {
-                System.out.println("Excepcion crearGrupo" + e.getMessage());
+                return -1;
             }
         }
-        return false;
+        return -1;
     }
 
     private static final String SELECT_GRUPOS
@@ -172,7 +190,6 @@ public class GestorUsuarios {
             stm.setString(1, id);
             stm.setString(2, Clave);
             try (ResultSet rs = stm.executeQuery()) {
-
                 Usuario u;
                 if (rs.next()) {
                     String i = rs.getString(1);
@@ -196,7 +213,7 @@ public class GestorUsuarios {
     }
 
     private static final String ESTUDIANTE_X_GRUPOS
-            = "SELECT apellidos, nombre FROM estudiante WHERE grupo_id = ?;";
+            = "SELECT id, apellidos, nombre, ultimo_acceso FROM estudiante WHERE grupo_id = ?;";
 
     private String estudiantes_x_grupo(int cc, Connection cnx) {
         try (PreparedStatement stm = cnx.prepareStatement(ESTUDIANTE_X_GRUPOS)) {
@@ -206,8 +223,12 @@ public class GestorUsuarios {
                 Usuario u = new Usuario();
                 StringBuilder r = new StringBuilder();
                 while (rs.next()) {
-                    String n = rs.getString(1);
-                    String a = rs.getString(2);
+                    String i = rs.getString(1);
+                    String n = rs.getString(2);
+                    String a = rs.getString(3);
+                    Date d = rs.getDate(4);
+                    u.setUltimo_acceso(d);
+                    u.setId(i);
                     u.setNombre(n);
                     u.setApellidos(a);
                     r.append(u.toStringHTML(true));
@@ -241,7 +262,7 @@ public class GestorUsuarios {
             }
             return r.toString();
         } catch (Exception e) {
-           return e.getMessage();
+            return e.getMessage();
         }
     }
 
@@ -262,7 +283,7 @@ public class GestorUsuarios {
                 String n = rs.getString(2);
                 g.setId(id);
                 g.setNombre(n);
-                r.append(String.format("<td id=\"cursos\"><table onclick=\"agregar('%d')\">", id));
+                r.append(String.format("<td id=\"cursos\"><table onclick=\"eliminar('%d')\">", id));
                 r.append(String.format("<caption>GRUPO %d</caption>", cont++));
                 r.append("<thead>");
                 r.append(g.toStringHTML());

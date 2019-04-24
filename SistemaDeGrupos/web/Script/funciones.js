@@ -1,10 +1,10 @@
 /*
-    EIF209 - Programación 4 – Proyecto #1
-    Abril 2019
-    Autores:
-    - 116960863 Diego Babbb
-    - 116920756 Naomi Rojas
-*/
+ EIF209 - Programación 4 – Proyecto #1
+ Abril 2019
+ Autores:
+ - 116960863 Diego Babbb
+ - 116920756 Naomi Rojas
+ */
 function logout() {
     document.botones.action = "ServletLogout";
     document.botones.submit();
@@ -26,7 +26,7 @@ function crearGrupo() {
 }
 
 function eliminar(row) {
-    var s = "ServletEliminarCurso?curso=" + row.toString();
+    var s = "ServletEliminarGrupo?grupo=" + row.toString();
     requestJSON(actualizar, s);
 }
 
@@ -38,6 +38,7 @@ function actualizar(data) {
 }
 
 function agregar(row) {
-    var s = "ServletAgregarCurso?grupo=" + row.toString();
+    console.log(row);
+    var s = "ServletAgregarGrupo?grupo=" + row.toString();
     requestJSON(actualizar, s);
 }

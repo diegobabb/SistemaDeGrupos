@@ -19,15 +19,6 @@ import javax.servlet.http.HttpServletResponse;
 
 public class ServletConsultarUsuarios extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -36,7 +27,7 @@ public class ServletConsultarUsuarios extends HttpServlet {
             request.getSession(true).setAttribute("usuarios", g.selectUsuarios());
             request.getRequestDispatcher("consultaUsuarios.jsp").forward(request, response);
         } catch (InstantiationException | ClassNotFoundException | IllegalAccessException ex) {
-            Logger.getLogger(ServletConsultarGrupos.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ServletConsultarUsuarios.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

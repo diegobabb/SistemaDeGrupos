@@ -21,35 +21,28 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import org.json.JSONObject;
 
-public class ServletEliminarCurso extends HttpServlet {
+public class ServletAgregarGrupo extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             response.setContentType("text/html;charset=UTF-8");
             JSONObject r = new JSONObject();
             HttpSession sesion = request.getSession(true);
             GestorUsuarios g = GestorUsuarios.obtenerInstancia();
             Usuario u = (Usuario) sesion.getAttribute("usuario");
-            //Hacer la Validacion por si no se puede matricular
-            g.abodonarGrupo(u.getId());
-            r.put("miscursos", g.selectGrupoWhereEstudiante(u.getGrupo_id()));
+            String curso = request.getParameter("grupo");
+            g.enlazar(u, Integer.parseInt(curso));
+            u.setGrupo_id(Integer.parseInt(curso));
+            r.put("miscursos", g.allGruposLess(u.getGrupo_id()));
             out.println(r);
-        } catch (InstantiationException | ClassNotFoundException | IllegalAccessException | SQLException ex) {
-            Logger.getLogger(ServletEliminarCurso.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException | InstantiationException | ClassNotFoundException | IllegalAccessException ex) {
+            Logger.getLogger(ServletAgregarGrupo.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *

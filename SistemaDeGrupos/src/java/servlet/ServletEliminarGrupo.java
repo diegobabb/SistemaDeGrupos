@@ -21,27 +21,27 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import org.json.JSONObject;
 
-public class ServletAgregarCurso extends HttpServlet {
+public class ServletEliminarGrupo extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             response.setContentType("text/html;charset=UTF-8");
             JSONObject r = new JSONObject();
             HttpSession sesion = request.getSession(true);
             GestorUsuarios g = GestorUsuarios.obtenerInstancia();
             Usuario u = (Usuario) sesion.getAttribute("usuario");
-            String curso = request.getParameter("grupo");
-            g.enlazar(u, curso);
-            r.put("miscursos", g.allGruposLess(u.getGrupo_id()));
+            //Hacer la Validacion por si no se puede matricular
+            g.abodonarGrupo(u.getId());
+            u.setGrupo_id(-1);
+            r.put("miscursos", "&nbsp");
             out.println(r);
-        } catch (SQLException | InstantiationException | ClassNotFoundException | IllegalAccessException ex) {
-            Logger.getLogger(ServletAgregarCurso.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InstantiationException | ClassNotFoundException | IllegalAccessException | SQLException ex) {
+            Logger.getLogger(ServletEliminarGrupo.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *
