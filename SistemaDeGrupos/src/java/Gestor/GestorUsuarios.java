@@ -43,6 +43,26 @@ public class GestorUsuarios {
         return instancia;
     }
 
+    private static final String UPDATE_ULTIMO_ACCESO
+            = "UPDATE `eif209_1901_p01`.`estudiante` SET `ultimo_acceso` = NOW() WHERE (`id` = ?);";
+
+    public boolean updateUltimoAcceso(Usuario u) {
+        if (null != u) {
+            try (Connection cnx = db.getConnection(BASE_DATOS, USUARIO_BD, CLAVE_BD);
+                    PreparedStatement stm = cnx.prepareStatement(UPDATE_ULTIMO_ACCESO)) {
+                stm.clearParameters();
+                stm.setString(1, u.getId());
+                if (stm.executeUpdate() != 1) {
+                    throw new SQLException(String.format(
+                            "Error al altualizar ultimo acceso de", u));
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(GestorUsuarios.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return false;
+    }
+
     private static final String SELECT_GRUPO
             = "SELECT nombre FROM eif209_1901_p01.grupo WHERE nombre = ?;";
 
@@ -197,7 +217,7 @@ public class GestorUsuarios {
                     String a = rs.getString(3);
                     String n = rs.getString(4);
                     int s = rs.getInt(5);
-                    Date d = rs.getDate(6);
+                    Date d = rs.getTimestamp(6);
                     int g = rs.getInt(7);
                     u = new Usuario(i, nrc, a, n, s, d, g);
                     return u;
@@ -226,7 +246,7 @@ public class GestorUsuarios {
                     String i = rs.getString(1);
                     String n = rs.getString(2);
                     String a = rs.getString(3);
-                    Date d = rs.getDate(4);
+                    Date d = rs.getTimestamp(4);
                     u.setUltimo_acceso(d);
                     u.setId(i);
                     u.setNombre(n);
@@ -243,7 +263,7 @@ public class GestorUsuarios {
     }
 
     private static final String SELECT_USUARIOS
-            = "SELECT apellidos, nombre, ultimo_acceso FROM estudiante;";
+            = "SELECT id, apellidos, nombre, ultimo_acceso FROM estudiante;";
 
     public String selectUsuarios() {
         try (Connection cnx = db.getConnection(BASE_DATOS, USUARIO_BD, CLAVE_BD);
@@ -252,9 +272,11 @@ public class GestorUsuarios {
             Usuario u = new Usuario();
             StringBuilder r = new StringBuilder();
             while (rs.next()) {
-                String a = rs.getString(1);
-                String n = rs.getString(2);
-                Date d = rs.getDate(3);
+                String id = rs.getString(1);
+                String a = rs.getString(2);
+                String n = rs.getString(3);
+                Date d = rs.getTimestamp(4);
+                u.setId(id);
                 u.setNombre(n);
                 u.setApellidos(a);
                 u.setUltimo_acceso(d);
@@ -269,33 +291,36 @@ public class GestorUsuarios {
     private static final String SELECT_GRUPO_WHERE_ESTUDIANTE
             = "SELECT id, nombre FROM eif209_1901_p01.grupo WHERE id = ?;";
 
-    public String selectGrupoWhereEstudiante(int pid) {
-        try (Connection cnx = db.getConnection(BASE_DATOS, USUARIO_BD, CLAVE_BD);
-                PreparedStatement stm = cnx.prepareStatement(SELECT_GRUPO_WHERE_ESTUDIANTE)) {
-            stm.clearParameters();
-            stm.setInt(1, pid);
-            ResultSet rs = stm.executeQuery();
-            Grupo g = new Grupo();
-            StringBuilder r = new StringBuilder();
-            int cont = 1;
-            if (rs.next()) {
-                int id = rs.getInt(1);
-                String n = rs.getString(2);
-                g.setId(id);
-                g.setNombre(n);
-                r.append(String.format("<td id=\"cursos\"><table onclick=\"eliminar('%d')\">", id));
-                r.append(String.format("<caption>GRUPO %d</caption>", cont++));
-                r.append("<thead>");
-                r.append(g.toStringHTML());
-                r.append("</thead>");
-                r.append("<tbody>");
-                r.append(estudiantes_x_grupo(id, cnx));
-                r.append("</tbody></table></td>");
+    public String selectGrupoWhereEstudiante(Usuario u) {
+        if (u != null) {
+            try (Connection cnx = db.getConnection(BASE_DATOS, USUARIO_BD, CLAVE_BD);
+                    PreparedStatement stm = cnx.prepareStatement(SELECT_GRUPO_WHERE_ESTUDIANTE)) {
+                stm.clearParameters();
+                stm.setInt(1, u.getGrupo_id());
+                ResultSet rs = stm.executeQuery();
+                Grupo g = new Grupo();
+                StringBuilder r = new StringBuilder();
+                int cont = 1;
+                if (rs.next()) {
+                    int id = rs.getInt(1);
+                    String n = rs.getString(2);
+                    g.setId(id);
+                    g.setNombre(n);
+                    r.append(String.format("<td id=\"cursos\"><table onclick=\"eliminar('%d')\">", id));
+                    r.append(String.format("<caption>GRUPO %d</caption>", cont++));
+                    r.append("<thead>");
+                    r.append(g.toStringHTML());
+                    r.append("</thead>");
+                    r.append("<tbody>");
+                    r.append(estudiantes_x_grupo(id, cnx));
+                    r.append("</tbody></table></td>");
+                }
+                return r.toString();
+            } catch (Exception e) {
+                return e.getMessage();
             }
-            return r.toString();
-        } catch (Exception e) {
-            return e.getMessage();
         }
+        return null;
     }
 
     private static final String SELECT_GRUPO_LESS

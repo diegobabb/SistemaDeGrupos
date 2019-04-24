@@ -36,12 +36,14 @@ public class Server extends HttpServlet {
 
         response.setContentType("text/html;charset=UTF-8");
         try {
-            Usuario user = GestorUsuarios.obtenerInstancia().selectUsuario(
+            GestorUsuarios g = GestorUsuarios.obtenerInstancia();
+            Usuario user = g.selectUsuario(
                     request.getParameter("usuario"), request.getParameter("password"));
             if (user != null) {
+                g.updateUltimoAcceso(user);
                 System.out.println("%n ------- ESTUDIANTE : -------" + user);
                 request.getSession(true).setAttribute("usuario", user);
-                request.getSession(true).setAttribute("cursos", GestorUsuarios.obtenerInstancia().selectGrupoWhereEstudiante(user.getGrupo_id()));
+                request.getSession(true).setAttribute("cursos", GestorUsuarios.obtenerInstancia().selectGrupoWhereEstudiante(user));
                 request.getRequestDispatcher("/principal.jsp").forward(request, response);
             } else {
                 request.setAttribute("error", "Usuario invalido");

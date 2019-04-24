@@ -13,14 +13,14 @@ import java.util.concurrent.TimeUnit;
 
 public class Usuario {
 
-    String id;
-    int nrc;
-    String apellidos;
-    String nombre;
-    int secuencia;
-    Date ultimo_acceso;
-    int grupo_id;
-    private static final int MAX_INACTIVIDAD = 5;
+    private String id;
+    private int nrc;
+    private String apellidos;
+    private String nombre;
+    private int secuencia;
+    private Date ultimo_acceso;
+    private int grupo_id;
+    private final int MAX_INACTIVIDAD = 30;
 
     public Usuario(String id, int nrc, String apellidos, String nombre, int secuencia, Date ultimo_acceso, int grupo_id) {
         this.id = id;
