@@ -146,6 +146,20 @@ public class GestorUsuarios {
             }
         }
     }
+    private static final String DESINCREMENTAR_CUPO
+            = "update eif209_1901_p01 .`grupo` SET `cupo` = cupo - 1 WHERE (`id` = ?);";
+
+    public void desincrementarCupo(int c) throws SQLException {
+        try (Connection cnx = db.getConnection(BASE_DATOS, USUARIO_BD, CLAVE_BD);
+                PreparedStatement stm = cnx.prepareStatement(DESINCREMENTAR_CUPO)) {
+            stm.clearParameters();
+            stm.setInt(1, c);
+            if (stm.executeUpdate() != 1) {
+                throw new SQLException(String.format(
+                        "No se puede incrementar: '%d'", c));
+            }
+        }
+    }
 
     private static final String SELECT_CUPO
             = "SELECT `cupo` FROM eif209_1901_p01 .`grupo` WHERE (`id` = ?);";
@@ -168,6 +182,22 @@ public class GestorUsuarios {
             System.out.println("Excepcion  PreparedStatement getCupo" + e.getMessage());
         }
         return -1;
+    }
+
+    private static final String SET_CLAVE
+            = "UPDATE eif209_1901_p01 .`estudiante` SET `clave`= ? WHERE id = ?;";
+
+    public void cambiarClave(Usuario u, String clave) throws SQLException {
+        try (Connection cnx = db.getConnection(BASE_DATOS, USUARIO_BD, CLAVE_BD);
+                PreparedStatement stm = cnx.prepareStatement(DESINCREMENTAR_CUPO)) {
+            stm.clearParameters();
+            stm.setString(1, u.getId());
+            stm.setString(2, clave);
+            if (stm.executeUpdate() != 1) {
+                throw new SQLException(String.format(
+                        "No se puede Cambiar clave: '%s'", clave));
+            }
+        }
     }
 
     private static final String MAX_ID_GRUPO
@@ -210,6 +240,30 @@ public class GestorUsuarios {
         }
         return -1;
     }
+    private static final String SELECT_NOMBRE_GRUPO
+            = "SELECT nombre FROM eif209_1901_p01.grupo WHERE nombre = ?;";
+
+    public boolean getGrupo(String nomb) {
+        try (Connection cnx = db.getConnection(BASE_DATOS, USUARIO_BD, CLAVE_BD);
+                PreparedStatement stm = cnx.prepareStatement(SELECT_NOMBRE_GRUPO)) {
+            stm.clearParameters();
+            stm.setString(1, nomb);
+            try (ResultSet rs = stm.executeQuery()) {
+                if (rs.next()) {
+                    String cupo = rs.getString(1);
+                    return false;
+                }
+            } catch (Exception e) {
+                System.out.println("Excepcion RESUT SET getCupo" + e.getMessage());
+            }
+
+        } catch (Exception e) {
+            System.out.println("Excepcion  PreparedStatement getCupo" + e.getMessage());
+        }
+        return true;
+    }
+    private static final String SELECT_GRUPOID
+            = "SELECT grupo_id FROM eif209_1901_p01.estudiante WHERE id = ?;";
 
     private static final String SELECT_GRUPOS
             = "SELECT id, nombre FROM eif209_1901_p01.grupo;";
@@ -358,43 +412,59 @@ public class GestorUsuarios {
         }
     }
 
+    private static final String SELECT_estudiante
+            = "SELECT grupo_id FROM eif209_1901_p01.estudiante WHERE id = ?;";
+
+    public int selectEst(Usuario u) {
+        try (Connection cnx = db.getConnection(BASE_DATOS, USUARIO_BD, CLAVE_BD);
+                PreparedStatement stm = cnx.prepareStatement(SELECT_estudiante)) {
+            stm.setString(1, u.getId());
+            ResultSet rs = stm.executeQuery();
+            if (rs.next()) {
+                int n = rs.getInt(1);
+                return n;
+            }
+        } catch (Exception e) {
+            System.out.println("Excepcion RESUT SET SelectUsuario" + e.getMessage());
+        }
+
+        return -1;
+    }
     private static final String SELECT_GRUPO_WHERE_ESTUDIANTE
             = "SELECT id, nombre FROM eif209_1901_p01.grupo WHERE id = ?;";
 
-    public String selectGrupoWhereEstudiante(Usuario u) {
-        if (u != null) {
-            try (Connection cnx = db.getConnection(BASE_DATOS, USUARIO_BD, CLAVE_BD);
-                    PreparedStatement stm = cnx.prepareStatement(SELECT_GRUPO_WHERE_ESTUDIANTE)) {
-                stm.clearParameters();
-                stm.setInt(1, u.getGrupo_id());
-                ResultSet rs = stm.executeQuery();
-                Grupo g = new Grupo();
-                StringBuilder r = new StringBuilder();
-                int cont = 1;
-                if (rs.next()) {
-                    int id = rs.getInt(1);
-                    String n = rs.getString(2);
-                    g.setId(id);
-                    g.setNombre(n);
-                    r.append(String.format("<td id=\"cursos\"><table onclick=\"eliminar('%d')\">", id));
-                    r.append(String.format("<caption>GRUPO %d</caption>", cont++));
-                    r.append("<thead>");
-                    r.append(g.toStringHTML());
-                    r.append("</thead>");
-                    r.append("<tbody>");
-                    r.append(estudiantes_x_grupo(id, cnx));
-                    r.append("</tbody></table></td>");
-                    r.append("<tfooter>");
-                    r.append(String.format(
-                            "<tr><td><input id=\"botonesInput\" type=\"button\" onclick=\"eliminaGrupo('%d')\" value=\"Salir\"></td></tr>", id));
-                    r.append("</tfooter>");
-                }
-                return r.toString();
-            } catch (Exception e) {
-                return e.getMessage();
+    public String selectGrupoWhereEstudiante(int c) {
+        try (Connection cnx = db.getConnection(BASE_DATOS, USUARIO_BD, CLAVE_BD);
+                PreparedStatement stm = cnx.prepareStatement(SELECT_GRUPO_WHERE_ESTUDIANTE)) {
+            stm.clearParameters();
+            stm.setInt(1, c);
+            ResultSet rs = stm.executeQuery();
+            Grupo g = new Grupo();
+            StringBuilder r = new StringBuilder();
+            int cont = 1;
+            if (rs.next()) {
+                int id = rs.getInt(1);
+                String n = rs.getString(2);
+                g.setId(id);
+                g.setNombre(n);
+                r.append(String.format("<td id=\"cursos\"><table onclick=\"eliminar('%d')\">", id));
+                r.append(String.format("<caption>GRUPO %d</caption>", cont++));
+                r.append("<thead>");
+                r.append(g.toStringHTML());
+                r.append("</thead>");
+                r.append("<tbody>");
+                r.append(estudiantes_x_grupo(id, cnx));
+                r.append("</tbody></table></td>");
+                r.append("<tfooter>");
+                r.append(String.format(
+                        "<tr><td><input id=\"botonesInput\" type=\"button\" onclick=\"eliminaGrupo('%d')\" value=\"Eliminar\"></td></tr>", id));
+                r.append("</tfooter>");
             }
+            return r.toString();
+        } catch (Exception e) {
+            return e.getMessage();
+
         }
-        return null;
     }
 
     private static final String SELECT_GRUPO_LESS
@@ -439,4 +509,5 @@ public class GestorUsuarios {
             return e.getMessage();
         }
     }
+
 }

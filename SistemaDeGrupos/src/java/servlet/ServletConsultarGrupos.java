@@ -25,7 +25,9 @@ public class ServletConsultarGrupos extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             Usuario u = (Usuario) request.getSession(true).getAttribute("usuario");
-            request.getSession(true).setAttribute("cursos", GestorUsuarios.obtenerInstancia().selectGrupoWhereEstudiante(u));
+            int c = GestorUsuarios.obtenerInstancia().selectEst(u);
+            request.getSession(true).setAttribute("cursos", GestorUsuarios.obtenerInstancia().selectGrupoWhereEstudiante(c));
+
             request.getRequestDispatcher("principal.jsp").forward(request, response);
         } catch (InstantiationException | ClassNotFoundException | IllegalAccessException ex) {
             Logger.getLogger(ServletConsultarGrupos.class.getName()).log(Level.SEVERE, null, ex);

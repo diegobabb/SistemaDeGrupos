@@ -6,6 +6,8 @@
     - 116920756 Naomi Rojas
 --%>
 
+<%@page import="Modelo.Usuario"%>
+<%@page import="Gestor.GestorUsuarios"%>
 <%@page import="java.util.Calendar"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.text.DateFormat"%>
@@ -38,7 +40,10 @@
                                 <tr>
                                     <td><input id="botonesInput" type="button" onclick="consultarUsuarios()" value="Consultar Usuarios"></td>
                                     <td><input id="botonesInput" type="button" onclick="consultarGrupos()" value="Mi grupo"></td>
-                                    <td><input id="botonesInput" type="button" onclick="crearGrupo()" value="Crear o Ingresar a Grupo"></td>
+                                    <td> <a href="crearGrupo.jsp">
+                                            <input id="botonesInput" type="button"  value="Crear o Ingresar a Grupo">
+                                        </a>
+                                    </td>
                                     <td><input id="botonesInput" type="button" onclick="logout()" value="Salir"></td>
                                 </tr>
                             </table>
@@ -79,7 +84,8 @@
                 <div>
                     <table id="principal">
                         <tbody id="miscursos">
-                            <%=request.getSession(true).getAttribute("allcursos")%>
+                            <%  GestorUsuarios g = GestorUsuarios.obtenerInstancia();%>
+                            <%= g.allGruposLess(((Usuario) request.getSession(true).getAttribute("usuario")).getGrupo_id())%>
                         </tbody>
                     </table>
                 </div>

@@ -23,18 +23,20 @@ import javax.servlet.http.HttpServletResponse;
 public class ServletCrearGrupo extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException, InstantiationException, ClassNotFoundException, IllegalAccessException, SQLException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             GestorUsuarios gestor = GestorUsuarios.obtenerInstancia();
             Usuario u = (Usuario) request.getSession(true).getAttribute("usuario");
             String n = request.getParameter("nombre");
-            int t = gestor.crearGrupo(n);
-            if (t != -1) {
+            if (gestor.getGrupo(n)) {
+                int t = gestor.crearGrupo(n);
                 gestor.enlazar(u, t);
                 request.setAttribute("Msg", "Grupo agregado");
+            } else {
+                request.setAttribute("Msg", "Existe un grupo con ese nombre");
             }
-            request.getSession(true).setAttribute("allcursos", gestor.allGruposLess(u.getGrupo_id()));
+            //  request.getSession(true).setAttribute("allcursos", gestor.allGruposLess(u.getGrupo_id()));
             request.getRequestDispatcher("crearGrupo.jsp").forward(request, response);
         } catch (InstantiationException | ClassNotFoundException | IllegalAccessException
                 | IOException | SQLException ex) {
@@ -45,13 +47,33 @@ public class ServletCrearGrupo extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (InstantiationException ex) {
+            Logger.getLogger(ServletCrearGrupo.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(ServletCrearGrupo.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            Logger.getLogger(ServletCrearGrupo.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(ServletCrearGrupo.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (InstantiationException ex) {
+            Logger.getLogger(ServletCrearGrupo.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(ServletCrearGrupo.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            Logger.getLogger(ServletCrearGrupo.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(ServletCrearGrupo.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @Override

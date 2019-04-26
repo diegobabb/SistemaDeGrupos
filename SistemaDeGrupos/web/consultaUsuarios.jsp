@@ -38,7 +38,10 @@
                                 <tr>
                                     <td><input id="botonesInput" type="button" onclick="consultarUsuarios()" value="Consultar Usuarios"></td>
                                     <td><input id="botonesInput" type="button" onclick="consultarGrupos()" value="Mi grupo"></td>
-                                    <td><input id="botonesInput" type="button" onclick="crearGrupo()" value="Crear o Ingresar a Grupo"></td>
+                                    <td> <a href="crearGrupo.jsp">
+                                            <input id="botonesInput" type="button"  value="Crear o Ingresar a Grupo">
+                                        </a>
+                                    </td>
                                     <td><input id="botonesInput" type="button" onclick="logout()" value="Salir"></td>
                                 </tr>
                             </table>
