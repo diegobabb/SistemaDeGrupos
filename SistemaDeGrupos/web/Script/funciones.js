@@ -2,7 +2,7 @@
  EIF209 - Programación 4 – Proyecto #1
  Abril 2019
  Autores:
- - 116960863 Diego Babbb
+ - 116960863 Diego Babb
  - 116920756 Naomi Rojas
  */
 function logout() {
@@ -29,7 +29,10 @@ function eliminar(row) {
     var s = "ServletEliminarGrupo?grupo=" + row.toString();
     requestJSON(actualizar, s);
 }
-
+function eliminaGrupo(row) {
+    var s = "ServletDeleteGrupo?grupo=" + row.toString();
+    requestJSON(actualizar, s);
+}
 function actualizar(data) {
     var refmiscursos = document.getElementById("miscursos");
     if (refmiscursos) {

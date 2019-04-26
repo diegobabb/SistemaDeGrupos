@@ -1,9 +1,7 @@
 /*
-    EIF209 - Programación 4 – Proyecto #1
-    Abril 2019
-    Autores:
-    - 116960863 Diego Babbb
-    - 116920756 Naomi Rojas
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
  */
 package servlet;
 
@@ -15,14 +13,29 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import org.json.JSONObject;
 
-public class ServletAgregarGrupo extends HttpServlet {
+/**
+ *
+ * @author Sammy Guergachi <sguergachi at gmail.com>
+ */
+@WebServlet(name = "ServletDeleteGrupo", urlPatterns = {"/ServletDeleteGrupo"})
+public class ServletDeleteGrupo extends HttpServlet {
 
+    /**
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -31,20 +44,13 @@ public class ServletAgregarGrupo extends HttpServlet {
             JSONObject r = new JSONObject();
             HttpSession sesion = request.getSession(true);
             GestorUsuarios g = GestorUsuarios.obtenerInstancia();
-            Usuario u = (Usuario) sesion.getAttribute("usuario");
-            String curso = request.getParameter("grupo");
-            if (g.getCupo(Integer.parseInt(curso)) < 5) {
-                g.enlazar(u, Integer.parseInt(curso));
-                u.setGrupo_id(Integer.parseInt(curso));
-                g.incrementarCupo(Integer.parseInt(curso));
-            } else {
-
-            }
-
-            r.put("miscursos", g.allGruposLess(u.getGrupo_id()));
+            int c = Integer.parseInt(request.getParameter("grupo"));
+            g.updateGrupoId(c);
+            g.deleteGrupo(c);
+            r.put("miscursos", "&nbsp");
             out.println(r);
-        } catch (SQLException | InstantiationException | ClassNotFoundException | IllegalAccessException ex) {
-            Logger.getLogger(ServletAgregarGrupo.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InstantiationException | ClassNotFoundException | IllegalAccessException | SQLException ex) {
+            Logger.getLogger(ServletEliminarGrupo.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

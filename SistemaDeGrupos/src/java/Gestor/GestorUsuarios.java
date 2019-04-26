@@ -62,6 +62,34 @@ public class GestorUsuarios {
         }
         return false;
     }
+    private static final String UPDATE_GRUPOID
+            = "UPDATE  eif209_1901_p01 .`estudiante` SET `grupo_id`=null WHERE `grupo_id`= ?;";
+    private static final String DELETE_GRUPO
+            = "DELETE  FROM eif209_1901_p01 .`grupo` WHERE `id`=?";
+
+    public void updateGrupoId(int c) throws SQLException {
+        try (Connection cnx = db.getConnection(BASE_DATOS, USUARIO_BD, CLAVE_BD);
+                PreparedStatement stm = cnx.prepareStatement(UPDATE_GRUPOID)) {
+            stm.clearParameters();
+            stm.setInt(1, c);
+            if (stm.executeUpdate() != 1) {
+                throw new SQLException(String.format(
+                        "No se puede updateGrupoId: '%d'", c));
+            }
+        }
+    }
+
+    public void deleteGrupo(int c) throws SQLException {
+        try (Connection cnx = db.getConnection(BASE_DATOS, USUARIO_BD, CLAVE_BD);
+                PreparedStatement stm = cnx.prepareStatement(DELETE_GRUPO)) {
+            stm.clearParameters();
+            stm.setInt(1, c);
+            if (stm.executeUpdate() != 1) {
+                throw new SQLException(String.format(
+                        "No se puede deleteGrupo: '%d'", c));
+            }
+        }
+    }
 
     private static final String SELECT_GRUPO
             = "SELECT nombre FROM eif209_1901_p01.grupo WHERE nombre = ?;";
@@ -93,12 +121,53 @@ public class GestorUsuarios {
                 stm.clearParameters();
                 stm.setInt(1, c);
                 stm.setString(2, u.getId());
+
                 if (stm.executeUpdate() != 1) {
                     throw new SQLException(String.format(
                             "No se puede agregar al Grupo: '%s'", u));
+
                 }
             }
+
         }
+
+    }
+    private static final String UPDATE_CUPO
+            = "UPDATE eif209_1901_p01 .`grupo` SET `cupo` = cupo + 1 WHERE (`id` = ?);";
+
+    public void incrementarCupo(int c) throws SQLException {
+        try (Connection cnx = db.getConnection(BASE_DATOS, USUARIO_BD, CLAVE_BD);
+                PreparedStatement stm = cnx.prepareStatement(UPDATE_CUPO)) {
+            stm.clearParameters();
+            stm.setInt(1, c);
+            if (stm.executeUpdate() != 1) {
+                throw new SQLException(String.format(
+                        "No se puede incrementar: '%d'", c));
+            }
+        }
+    }
+
+    private static final String SELECT_CUPO
+            = "SELECT `cupo` FROM eif209_1901_p01 .`grupo` WHERE (`id` = ?);";
+
+    public int getCupo(int c) {
+        try (Connection cnx = db.getConnection(BASE_DATOS, USUARIO_BD, CLAVE_BD);
+                PreparedStatement stm = cnx.prepareStatement(SELECT_CUPO)) {
+            stm.clearParameters();
+            stm.setInt(1, c);
+            try (ResultSet rs = stm.executeQuery()) {
+                if (rs.next()) {
+                    int cupo = rs.getInt(1);
+                    return cupo;
+                }
+            } catch (Exception e) {
+                System.out.println("Excepcion RESUT SET getCupo" + e.getMessage());
+            }
+
+        } catch (Exception e) {
+            System.out.println("Excepcion  PreparedStatement getCupo" + e.getMessage());
+        }
+        return -1;
     }
 
     private static final String MAX_ID_GRUPO
@@ -176,6 +245,7 @@ public class GestorUsuarios {
                 r.append("<tbody>");
                 r.append(estudiantes_x_grupo(id, cnx));
                 r.append("</tbody></table></td>");
+
             }
             return r.toString();
         } catch (Exception e) {
@@ -314,6 +384,10 @@ public class GestorUsuarios {
                     r.append("<tbody>");
                     r.append(estudiantes_x_grupo(id, cnx));
                     r.append("</tbody></table></td>");
+                    r.append("<tfooter>");
+                    r.append(String.format(
+                            "<tr><td><input id=\"botonesInput\" type=\"button\" onclick=\"eliminaGrupo('%d')\" value=\"Salir\"></td></tr>", id));
+                    r.append("</tfooter>");
                 }
                 return r.toString();
             } catch (Exception e) {
