@@ -29,19 +29,22 @@ public class ServletAgregarGrupo extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
             response.setContentType("text/html;charset=UTF-8");
             JSONObject r = new JSONObject();
-            HttpSession sesion = request.getSession(true);
-            GestorUsuarios g = GestorUsuarios.obtenerInstancia();
-            Usuario u = (Usuario) sesion.getAttribute("usuario");
-            String curso = request.getParameter("grupo");
-            if (g.getCupo(Integer.parseInt(curso)) < 5) {
-                g.enlazar(u, Integer.parseInt(curso));
-                u.setGrupo_id(Integer.parseInt(curso));
-                g.incrementarCupo(Integer.parseInt(curso));
+            HttpSession sesion = request.getSession(false);
+            if (sesion != null) {
+                GestorUsuarios g = GestorUsuarios.obtenerInstancia();
+                Usuario u = (Usuario) sesion.getAttribute("usuario");
+                String curso = request.getParameter("grupo");
+                if (g.getCupo(Integer.parseInt(curso)) < 5) {
+                    g.enlazar(u, Integer.parseInt(curso));
+                    u.setGrupo_id(Integer.parseInt(curso));
+                    g.incrementarCupo(Integer.parseInt(curso));
+                }
+                r.put("miscursos", g.allGruposLess(u.getGrupo_id()));
             } else {
-
+                request.setAttribute("error", "Su sesión ha expirado por inactividad.");
+                request.getRequestDispatcher("index.jsp").forward(request, response);
             }
 
-            r.put("miscursos", g.allGruposLess(u.getGrupo_id()));
             out.println(r);
         } catch (SQLException | InstantiationException | ClassNotFoundException | IllegalAccessException ex) {
             Logger.getLogger(ServletAgregarGrupo.class.getName()).log(Level.SEVERE, null, ex);

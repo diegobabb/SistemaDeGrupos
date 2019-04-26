@@ -21,18 +21,20 @@
         <link href="Css/stylePrincipal.css" rel="stylesheet" type="text/css"/>
         <title>Sistema de Grupos</title>
         <% response.setHeader("cache-control", "no-cache, no-store, must-revalidate"); %>
-        <%
-            if (request.getSession(true).getAttribute("usuario") == null) {
-                response.sendRedirect("index.jsp");
-            }
-        %>
+
     </head>
     <body>
         <div id="wrapper">
             <div id="contents">
                 <div id="divicion">
                     <div style="margin-bottom: 15px;">
-                        <strong><%=request.getSession(true).getAttribute("usuario").toString()%></strong>
+                        <%
+                            if (request.getSession(false).getAttribute("usuario") != null) {
+                                Usuario u = (Usuario) request.getSession(false).getAttribute("usuario");%>
+                        <strong><%= u.toString()%></strong>
+                        <% }  %>
+
+
                     </div>
                     <div>
                         <form  id="botones" name="botones" method="POST">
@@ -84,8 +86,12 @@
                 <div>
                     <table id="principal">
                         <tbody id="miscursos">
-                            <%  GestorUsuarios g = GestorUsuarios.obtenerInstancia();%>
-                            <%= g.allGruposLess(((Usuario) request.getSession(true).getAttribute("usuario")).getGrupo_id())%>
+                            <%if (request.getSession(false).getAttribute("usuario") == null) {
+                                    response.sendRedirect("index.jsp");
+                                } else { %>
+                            <% GestorUsuarios g = GestorUsuarios.obtenerInstancia();%>
+                            <%= g.allGruposLess(((Usuario) request.getSession(false).getAttribute("usuario")).getGrupo_id())%>
+                            <%}%>
                         </tbody>
                     </table>
                 </div>

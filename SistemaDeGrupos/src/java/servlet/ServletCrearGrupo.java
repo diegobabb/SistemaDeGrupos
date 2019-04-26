@@ -19,6 +19,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 public class ServletCrearGrupo extends HttpServlet {
 
@@ -27,14 +28,20 @@ public class ServletCrearGrupo extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             GestorUsuarios gestor = GestorUsuarios.obtenerInstancia();
-            Usuario u = (Usuario) request.getSession(true).getAttribute("usuario");
-            String n = request.getParameter("nombre");
-            if (gestor.getGrupo(n)) {
-                int t = gestor.crearGrupo(n);
-                gestor.enlazar(u, t);
-                request.setAttribute("Msg", "Grupo agregado");
+            HttpSession sesion = request.getSession(false);
+            if (sesion != null) {
+                Usuario u = (Usuario) sesion.getAttribute("usuario");
+                String n = request.getParameter("nombre");
+                if (gestor.getGrupo(n)) {
+                    int t = gestor.crearGrupo(n);
+                    gestor.enlazar(u, t);
+                    request.setAttribute("Msg", "Grupo agregado");
+                } else {
+                    request.setAttribute("Msg", "Existe un grupo con ese nombre");
+                }
             } else {
-                request.setAttribute("Msg", "Existe un grupo con ese nombre");
+                request.setAttribute("error", "Su sesión ha expirado por inactividad.");
+                request.getRequestDispatcher("index.jsp").forward(request, response);
             }
             //  request.getSession(true).setAttribute("allcursos", gestor.allGruposLess(u.getGrupo_id()));
             request.getRequestDispatcher("crearGrupo.jsp").forward(request, response);

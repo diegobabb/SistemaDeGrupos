@@ -20,7 +20,7 @@
         <title>Sistema de Grupos</title>
         <% response.setHeader("cache-control", "no-cache, no-store, must-revalidate"); %>
         <%
-            if (request.getSession(true).getAttribute("usuario") == null) {
+            if (request.getSession(false).getAttribute("usuario") == null) {
                 response.sendRedirect("index.jsp");
             }
         %>

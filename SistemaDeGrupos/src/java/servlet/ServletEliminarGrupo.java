@@ -32,9 +32,13 @@ public class ServletEliminarGrupo extends HttpServlet {
             GestorUsuarios g = GestorUsuarios.obtenerInstancia();
             Usuario u = (Usuario) sesion.getAttribute("usuario");
             int c = Integer.parseInt(request.getParameter("grupo"));
+
             g.abodonarGrupo(u.getId());
             g.desincrementarCupo(c);
             u.setGrupo_id(-1);
+            if (g.getCupo(c) == 0) {
+                g.deleteGrupo(c);
+            }
             r.put("miscursos", "&nbsp");
             out.println(r);
         } catch (InstantiationException | ClassNotFoundException | IllegalAccessException | SQLException ex) {

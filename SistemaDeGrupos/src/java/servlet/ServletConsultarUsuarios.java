@@ -16,6 +16,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 public class ServletConsultarUsuarios extends HttpServlet {
 
@@ -24,8 +25,15 @@ public class ServletConsultarUsuarios extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             GestorUsuarios g = GestorUsuarios.obtenerInstancia();
-            request.getSession(true).setAttribute("usuarios", g.selectUsuarios());
-            request.getRequestDispatcher("consultaUsuarios.jsp").forward(request, response);
+            HttpSession sesion = request.getSession(false);
+            if (sesion != null) {
+                sesion.setAttribute("usuarios", g.selectUsuarios());
+                request.getRequestDispatcher("consultaUsuarios.jsp").forward(request, response);
+            } else {
+                request.setAttribute("error", "Su sesión ha expirado por inactividad.");
+                request.getRequestDispatcher("index.jsp").forward(request, response);
+            }
+
         } catch (InstantiationException | ClassNotFoundException | IllegalAccessException ex) {
             Logger.getLogger(ServletConsultarUsuarios.class.getName()).log(Level.SEVERE, null, ex);
         }

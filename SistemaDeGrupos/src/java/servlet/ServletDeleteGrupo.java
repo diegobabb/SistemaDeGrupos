@@ -42,11 +42,16 @@ public class ServletDeleteGrupo extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
             response.setContentType("text/html;charset=UTF-8");
             JSONObject r = new JSONObject();
-            HttpSession sesion = request.getSession(true);
+            HttpSession sesion = request.getSession(false);
             GestorUsuarios g = GestorUsuarios.obtenerInstancia();
-            int c = Integer.parseInt(request.getParameter("grupo"));
-            g.updateGrupoId(c);
-            g.deleteGrupo(c);
+            if (sesion != null) {
+                int c = Integer.parseInt(request.getParameter("grupo"));
+                g.updateGrupoId(c);
+                g.deleteGrupo(c);
+            } else {
+                request.setAttribute("error", "Su sesión ha expirado por inactividad.");
+                request.getRequestDispatcher("index.jsp").forward(request, response);
+            }
             r.put("miscursos", "&nbsp");
             out.println(r);
         } catch (InstantiationException | ClassNotFoundException | IllegalAccessException | SQLException ex) {
