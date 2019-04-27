@@ -46,13 +46,21 @@ public class Usuario {
         return TimeUnit.MINUTES.convert(dfM, TimeUnit.MILLISECONDS);
     }
 
+    private String diferenciaHoras() {
+        long t = Math.abs(Calendar.getInstance().getTimeInMillis() - ultimo_acceso.getTime());
+        int h = (int) TimeUnit.MILLISECONDS.toHours(t) % 24;
+        int m = (int) TimeUnit.MILLISECONDS.toMinutes(t) % 60;
+        int s = (int) TimeUnit.MILLISECONDS.toSeconds(t) % 60;
+        return String.format("%02d:%02d:%02d", h, m, s);
+    }
+
     public String toStringHTML(boolean b) {
         long g = calculo();
         String s = ((g < MAX_INACTIVIDAD) ? "<img src=\"https://img.icons8.com/color/25/000000/ok.png\">" : "<img src=\"https://img.icons8.com/color/25/000000/cancel.png\">");
         if (b) {
             return String.format("<tr><td>%s</td><td>%s</td><td>%s</td></tr>", nombre, apellidos, s);
         }
-        return String.format("<tr><td>%s</td><td>%s</td><td>%s</td><td>%s</td></tr>", id, nombre, apellidos, s);
+        return String.format("<tr><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s %s</td></tr>", id, nombre, apellidos, nrc, diferenciaHoras(), s);
     }
 
     public String getId() {
@@ -102,7 +110,7 @@ public class Usuario {
     public void setUltimo_acceso(Date ultimo_acceso) {
         if (ultimo_acceso != null) {
             this.ultimo_acceso = ultimo_acceso;
-        }else{
+        } else {
             this.ultimo_acceso = new Date();
         }
     }

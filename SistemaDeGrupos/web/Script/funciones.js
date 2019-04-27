@@ -5,6 +5,29 @@
  - 116960863 Diego Babb
  - 116920756 Naomi Rojas
  */
+
+function init() {
+    setTimeout(actualizarR, 1000);
+}
+
+function actualizarR() {
+    var o = document.getElementById("orden").selectedIndex;
+    if (o !== 0) {
+        requestJSON(actualizarInfo, "ServletRecarga?orden=" + o.toString());
+        setTimeout(actualizarR, 1000);
+    } else {
+        requestJSON(actualizarInfo, "ServletRecarga");
+        setTimeout(actualizarR, 1000);
+    }
+}
+
+function actualizarInfo(datos) {
+    var reflistaUsuarios = document.getElementById("usuarios");
+    if (reflistaUsuarios) {
+        reflistaUsuarios.innerHTML = datos.usuarios;
+    }
+}
+
 function logout() {
     document.botones.action = "ServletLogout";
     document.botones.submit();

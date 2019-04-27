@@ -1,4 +1,3 @@
-
 /*
     EIF209 - Programación 4 – Proyecto #1
     Abril 2019
@@ -32,6 +31,7 @@ public class ServletCrearGrupo extends HttpServlet {
             if (sesion != null) {
                 Usuario u = (Usuario) sesion.getAttribute("usuario");
                 String n = request.getParameter("nombre");
+                gestor.updateUltimoAcceso(u);
                 if (n != null) {
                     if (gestor.getGrupo(n)) {
                         int t = gestor.crearGrupo(n);

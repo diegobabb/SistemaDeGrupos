@@ -25,7 +25,7 @@
             }
         %>
     </head>
-    <body>
+    <body onload="init()">
         <div id="wrapper">
             <div id="contents">
                 <div id="divicion">
@@ -46,15 +46,29 @@
                         </form>
                     </div>
                 </div>
+                <div id="divicion">
+                    <table>
+                        <tr>
+                            <td>
+                                <strong>Ordenar por</strong>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <select id="orden" name="orden" style="border: none;padding: 5px;border-radius: 2px;">
+                                    <option>SELECCIONAR</option>
+                                    <option>NRC</option>
+                                    <option>Apellidos</option>
+                                    <option>Nombre</option>
+                                    <option>Identificaciones</option>
+                                </select>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
                 <div>
                     <table id="principal">
-                        <tbody id="cursos">
-                            <tr>
-                                <th>Identificacion</th>
-                                <th>Nombre</th>
-                                <th>Apellidos</th>
-                                <th>Estado</th>
-                            </tr>
+                        <tbody id="usuarios">
                             <%=request.getSession(true).getAttribute("usuarios")%>
                         </tbody>
                     </table>

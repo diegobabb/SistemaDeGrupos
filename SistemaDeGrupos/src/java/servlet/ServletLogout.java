@@ -7,8 +7,12 @@
  */
 package servlet;
 
+import Gestor.GestorUsuarios;
+import Modelo.Usuario;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -23,9 +27,14 @@ public class ServletLogout extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
             response.setHeader("cache-control", "no-cache, no-store, must-revalidate");
             HttpSession sesion = request.getSession(true);
+            Usuario u = (Usuario) sesion.getAttribute("usuario");
+            GestorUsuarios g = GestorUsuarios.obtenerInstancia();
+            g.updateUltimoAcceso(u);
             sesion.removeAttribute("usuario");
             sesion.invalidate();
             request.getRequestDispatcher("index.jsp").forward(request, response);
+        } catch (InstantiationException | ClassNotFoundException | IllegalAccessException ex) {
+            Logger.getLogger(ServletLogout.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

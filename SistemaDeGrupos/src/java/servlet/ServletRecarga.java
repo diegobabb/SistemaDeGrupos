@@ -17,27 +17,25 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import org.json.JSONObject;
 
-public class ServletConsultarUsuarios extends HttpServlet {
+public class ServletRecarga extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
+            JSONObject r = new JSONObject();
             GestorUsuarios g = GestorUsuarios.obtenerInstancia();
-            HttpSession sesion = request.getSession(false);
-            if (sesion != null) {
-                Usuario u = (Usuario) sesion.getAttribute("usuario");
-                g.updateUltimoAcceso(u);
-                sesion.setAttribute("usuarios", g.selectUsuarios());
-                request.getRequestDispatcher("consultaUsuarios.jsp").forward(request, response);
-            } else {
-                request.setAttribute("error", "Su sesión ha expirado por inactividad.");
-                request.getRequestDispatcher("index.jsp").forward(request, response);
+            g.updateUltimoAcceso((Usuario) request.getSession(true).getAttribute("usuario"));
+            String orden = request.getParameter("orden");
+            if (orden != null) {
+                g.orderEstudiantesBy(orden);
             }
+            r.put("usuarios", g.selectUsuarios());
+            out.println(r);
         } catch (InstantiationException | ClassNotFoundException | IllegalAccessException ex) {
-            Logger.getLogger(ServletConsultarUsuarios.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ServletRecarga.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

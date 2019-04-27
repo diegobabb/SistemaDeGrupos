@@ -52,9 +52,10 @@
                     <form action="ServletCrearGrupo" method="POST">
                         <table>
                             <tr>
-                                <td>
-                                    <strong>Nombre de grupo</strong>
-                                </td>
+                                <td><strong>Agregar nuevo grupo</strong></td>
+                            </tr>
+                            <tr>
+                                <td>Nombre de grupo</td>
                             </tr>
                             <tr>
                                 <td>
@@ -68,13 +69,11 @@
                             </tr>
                             <tr>
                                 <td>
-                            <bold>
-                                <% String msg = (String) request.getAttribute("Msg");
+                                    <% String msg = (String) request.getAttribute("Msg");
                                     if (msg != null) {%>
-                                <%= msg%>
-                                <%}%>
-                            </bold>
-                            </td>
+                                    <strong><%= msg%></strong>
+                                    <%}%>
+                                </td>
                             </tr>
                         </table>
                     </form>

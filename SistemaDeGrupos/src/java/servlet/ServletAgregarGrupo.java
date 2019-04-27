@@ -33,6 +33,7 @@ public class ServletAgregarGrupo extends HttpServlet {
             if (sesion != null) {
                 GestorUsuarios g = GestorUsuarios.obtenerInstancia();
                 Usuario u = (Usuario) sesion.getAttribute("usuario");
+                g.updateUltimoAcceso(u);
                 String curso = request.getParameter("grupo");
                 if (g.getCupo(Integer.parseInt(curso)) < 5) {
                     g.enlazar(u, Integer.parseInt(curso));

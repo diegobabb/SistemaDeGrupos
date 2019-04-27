@@ -386,8 +386,8 @@ public class GestorUsuarios {
         }
     }
 
-    private static final String SELECT_USUARIOS
-            = "SELECT id, apellidos, nombre, ultimo_acceso FROM estudiante;";
+    private static String SELECT_USUARIOS
+            = "select id, apellidos, nombre, ultimo_acceso, nrc from eif209_1901_p01.estudiante;";
 
     public String selectUsuarios() {
         try (Connection cnx = db.getConnection(BASE_DATOS, USUARIO_BD, CLAVE_BD);
@@ -395,15 +395,19 @@ public class GestorUsuarios {
                 ResultSet rs = stm.executeQuery(SELECT_USUARIOS)) {
             Usuario u = new Usuario();
             StringBuilder r = new StringBuilder();
+            r.append("<tr><th>Identificacion</th><th>Nombre</th><th>Apellidos</th><th>NRC</th><th>Ultimo acceso</th></tr>");
             while (rs.next()) {
                 String id = rs.getString(1);
                 String a = rs.getString(2);
                 String n = rs.getString(3);
                 Date d = rs.getTimestamp(4);
+                int nr = rs.getInt(5);
+                u.setNrc(nr);
                 u.setId(id);
                 u.setNombre(n);
                 u.setApellidos(a);
                 u.setUltimo_acceso(d);
+                u.setNrc(nr);
                 r.append(u.toStringHTML(false));
             }
             return r.toString();
@@ -412,24 +416,6 @@ public class GestorUsuarios {
         }
     }
 
-    private static final String SELECT_estudiante
-            = "SELECT grupo_id FROM eif209_1901_p01.estudiante WHERE id = ?;";
-
-    public int selectEst(Usuario u) {
-        try (Connection cnx = db.getConnection(BASE_DATOS, USUARIO_BD, CLAVE_BD);
-                PreparedStatement stm = cnx.prepareStatement(SELECT_estudiante)) {
-            stm.setString(1, u.getId());
-            ResultSet rs = stm.executeQuery();
-            if (rs.next()) {
-                int n = rs.getInt(1);
-                return n;
-            }
-        } catch (Exception e) {
-            System.out.println("Excepcion RESUT SET SelectUsuario" + e.getMessage());
-        }
-
-        return -1;
-    }
     private static final String SELECT_GRUPO_WHERE_ESTUDIANTE
             = "SELECT id, nombre FROM eif209_1901_p01.grupo WHERE id = ?;";
 
@@ -529,6 +515,28 @@ public class GestorUsuarios {
             }
         }
         return false;
+    }
+
+    public void orderEstudiantesBy(String s) {
+        if (s != null) {
+            switch (s) {
+                case "1":
+                    SELECT_USUARIOS = "select id, apellidos, nombre, ultimo_acceso, nrc from eif209_1901_p01.estudiante order by nrc;";
+                    break;
+                case "2":
+                    SELECT_USUARIOS = "select id, apellidos, nombre, ultimo_acceso, nrc from eif209_1901_p01.estudiante order by apellidos;";
+                    break;
+                case "3":
+                    SELECT_USUARIOS = "select id, apellidos, nombre, ultimo_acceso, nrc from eif209_1901_p01.estudiante order by nombre;";
+                    break;
+                case "5":
+                    SELECT_USUARIOS = "select id, apellidos, nombre, ultimo_acceso, nrc from eif209_1901_p01.estudiante order by grupo_id desc;";
+                    break;
+                case "4":
+                    SELECT_USUARIOS = "select id, apellidos, nombre, ultimo_acceso, nrc from eif209_1901_p01.estudiante order by id;";
+                    break;
+            }
+        }
     }
 
 }

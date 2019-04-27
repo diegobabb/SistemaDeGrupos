@@ -31,8 +31,8 @@ public class ServletEliminarGrupo extends HttpServlet {
             HttpSession sesion = request.getSession(true);
             GestorUsuarios g = GestorUsuarios.obtenerInstancia();
             Usuario u = (Usuario) sesion.getAttribute("usuario");
+            g.updateUltimoAcceso(u);
             int c = Integer.parseInt(request.getParameter("grupo"));
-
             g.abodonarGrupo(u.getId());
             g.desincrementarCupo(c);
             u.setGrupo_id(-1);

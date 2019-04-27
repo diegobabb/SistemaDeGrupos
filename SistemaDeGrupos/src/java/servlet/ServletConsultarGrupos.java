@@ -27,8 +27,10 @@ public class ServletConsultarGrupos extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
             HttpSession sesion = request.getSession(false);
             if (sesion != null) {
+                GestorUsuarios g = GestorUsuarios.obtenerInstancia();
                 Usuario u = (Usuario) sesion.getAttribute("usuario");
-                request.getSession(true).setAttribute("cursos", GestorUsuarios.obtenerInstancia().selectGrupoWhereEstudiante(u));
+                g.updateUltimoAcceso(u);
+                request.getSession(true).setAttribute("cursos", g.selectGrupoWhereEstudiante(u));
                 request.getRequestDispatcher("principal.jsp").forward(request, response);
             } else {
                 request.setAttribute("error", "Su sesión ha expirado por inactividad.");

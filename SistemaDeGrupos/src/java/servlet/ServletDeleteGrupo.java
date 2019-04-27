@@ -1,7 +1,9 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+    EIF209 - Programación 4 – Proyecto #1
+    Abril 2019
+    Autores:
+    - 116960863 Diego Babbb
+    - 116920756 Naomi Rojas
  */
 package servlet;
 
@@ -20,22 +22,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import org.json.JSONObject;
 
-/**
- *
- * @author Sammy Guergachi <sguergachi at gmail.com>
- */
 @WebServlet(name = "ServletDeleteGrupo", urlPatterns = {"/ServletDeleteGrupo"})
 public class ServletDeleteGrupo extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -45,6 +34,8 @@ public class ServletDeleteGrupo extends HttpServlet {
             HttpSession sesion = request.getSession(false);
             GestorUsuarios g = GestorUsuarios.obtenerInstancia();
             if (sesion != null) {
+                Usuario u = (Usuario) sesion.getAttribute("usuario");
+                g.updateUltimoAcceso(u);
                 int c = Integer.parseInt(request.getParameter("grupo"));
                 g.updateGrupoId(c);
                 g.deleteGrupo(c);
