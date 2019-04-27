@@ -5,6 +5,7 @@
     - 116960863 Diego Babbb
     - 116920756 Naomi Rojas
 --%>
+<%@taglib prefix="Etiquetas" uri="/WEB-INF/tlds/Etiquetas" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -55,8 +56,8 @@
                                 <tr>
                                     <td colspan="2" id="error">
                                         <%
-                                            String error = (String) request.getAttribute("error");
-                                            if (error != null) {%>
+                                        String error = (String) request.getAttribute("error");
+                                        if (error != null) {%>
                                         <%=error%>
                                         <%}%>
                                     </td>
