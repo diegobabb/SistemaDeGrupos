@@ -32,12 +32,14 @@ public class ServletCrearGrupo extends HttpServlet {
             if (sesion != null) {
                 Usuario u = (Usuario) sesion.getAttribute("usuario");
                 String n = request.getParameter("nombre");
-                if (gestor.getGrupo(n)) {
-                    int t = gestor.crearGrupo(n);
-                    gestor.enlazar(u, t);
-                    request.setAttribute("Msg", "Grupo agregado");
-                } else {
-                    request.setAttribute("Msg", "Existe un grupo con ese nombre");
+                if (n != null) {
+                    if (gestor.getGrupo(n)) {
+                        int t = gestor.crearGrupo(n);
+                        gestor.enlazar(u, t);
+                        request.setAttribute("Msg", "Grupo agregado");
+                    } else {
+                        request.setAttribute("Msg", "Existe un grupo con ese nombre");
+                    }
                 }
             } else {
                 request.setAttribute("error", "Su sesión ha expirado por inactividad.");

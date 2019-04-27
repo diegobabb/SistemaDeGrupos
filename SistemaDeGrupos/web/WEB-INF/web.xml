@@ -28,6 +28,10 @@
         <servlet-name>ServletLogout</servlet-name>
         <servlet-class>servlet.ServletLogout</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ServletCambiarClave</servlet-name>
+        <servlet-class>servlet.ServletCambiarClave</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Server</servlet-name>
         <url-pattern>/Server</url-pattern>
@@ -55,6 +59,10 @@
     <servlet-mapping>
         <servlet-name>ServletLogout</servlet-name>
         <url-pattern>/ServletLogout</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ServletCambiarClave</servlet-name>
+        <url-pattern>/ServletCambiarClave</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

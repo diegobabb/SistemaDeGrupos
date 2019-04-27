@@ -10,6 +10,11 @@ function logout() {
     document.botones.submit();
 }
 
+function cambiarClave() {
+    document.botones.action = "ServletCambiarClave";
+    document.botones.submit();
+}
+
 function consultarUsuarios() {
     document.botones.action = "ServletConsultarUsuarios";
     document.botones.submit();

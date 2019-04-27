@@ -39,7 +39,7 @@ public class ServletAgregarGrupo extends HttpServlet {
                     u.setGrupo_id(Integer.parseInt(curso));
                     g.incrementarCupo(Integer.parseInt(curso));
                 }
-                r.put("miscursos", g.allGruposLess(u.getGrupo_id()));
+                r.put("miscursos", g.allGruposLess(u));
             } else {
                 request.setAttribute("error", "Su sesión ha expirado por inactividad.");
                 request.getRequestDispatcher("index.jsp").forward(request, response);

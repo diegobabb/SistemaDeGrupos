@@ -33,8 +33,6 @@
                                 Usuario u = (Usuario) request.getSession(false).getAttribute("usuario");%>
                         <strong><%= u.toString()%></strong>
                         <% }  %>
-
-
                     </div>
                     <div>
                         <form  id="botones" name="botones" method="POST">
@@ -42,10 +40,8 @@
                                 <tr>
                                     <td><input id="botonesInput" type="button" onclick="consultarUsuarios()" value="Consultar Usuarios"></td>
                                     <td><input id="botonesInput" type="button" onclick="consultarGrupos()" value="Mi grupo"></td>
-                                    <td> <a href="crearGrupo.jsp">
-                                            <input id="botonesInput" type="button"  value="Crear o Ingresar a Grupo">
-                                        </a>
-                                    </td>
+                                    <td><input id="botonesInput" type="button" onclick="crearGrupo()" value="Crear o Ingresar a Grupo"></td>
+                                    <td><input id="botonesInput" type="button" onclick="cambiarClave()" value="Cambiar Contraseña"></td>
                                     <td><input id="botonesInput" type="button" onclick="logout()" value="Salir"></td>
                                 </tr>
                             </table>
@@ -90,7 +86,7 @@
                                     response.sendRedirect("index.jsp");
                                 } else { %>
                             <% GestorUsuarios g = GestorUsuarios.obtenerInstancia();%>
-                            <%= g.allGruposLess(((Usuario) request.getSession(false).getAttribute("usuario")).getGrupo_id())%>
+                            <%= g.allGruposLess((Usuario) request.getSession(false).getAttribute("usuario"))%>
                             <%}%>
                         </tbody>
                     </table>

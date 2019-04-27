@@ -5,9 +5,7 @@
     - 116960863 Diego Babbb
     - 116920756 Naomi Rojas
 --%>
-<%@page import="java.util.Calendar"%>
-<%@page import="java.text.SimpleDateFormat"%>
-<%@page import="java.text.DateFormat"%>
+
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -19,7 +17,7 @@
         <title>Sistema de Grupos</title>
         <% response.setHeader("cache-control", "no-cache, no-store, must-revalidate"); %>
         <%
-            if (request.getSession(false).getAttribute("usuario") == null) {
+            if (request.getSession(true).getAttribute("usuario") == null) {
                 response.sendRedirect("index.jsp");
             }
         %>
@@ -45,15 +43,43 @@
                         </form>
                     </div>
                 </div>
-                <div>
-                    <table id="principal">
-                        <tbody id="miscursos">
-                            <%=request.getSession(true).getAttribute("cursos")%>
-                        </tbody>
-                    </table>
+                <div id="divicion">
+                    <form action="ServletCambiarClave" method="POST">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Ingresar nuevo contraseña</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Nueva contraseña</td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <input type="text" name="clave">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <input type="submit" id="botonesInput" value="Cambiar">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                            <bold>
+                                <% String msg = (String) request.getAttribute("Msg");
+                                    if (msg != null) {%>
+                                <%= msg%>
+                                <%}%>
+                            </bold>
+                            </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </form>
                 </div>
             </div>
         </div>
     </body>
 </html>
-

@@ -433,11 +433,11 @@ public class GestorUsuarios {
     private static final String SELECT_GRUPO_WHERE_ESTUDIANTE
             = "SELECT id, nombre FROM eif209_1901_p01.grupo WHERE id = ?;";
 
-    public String selectGrupoWhereEstudiante(int c) {
+    public String selectGrupoWhereEstudiante(Usuario c) {
         try (Connection cnx = db.getConnection(BASE_DATOS, USUARIO_BD, CLAVE_BD);
                 PreparedStatement stm = cnx.prepareStatement(SELECT_GRUPO_WHERE_ESTUDIANTE)) {
             stm.clearParameters();
-            stm.setInt(1, c);
+            stm.setInt(1, c.getGrupo_id());
             ResultSet rs = stm.executeQuery();
             Grupo g = new Grupo();
             StringBuilder r = new StringBuilder();
@@ -470,11 +470,11 @@ public class GestorUsuarios {
     private static final String SELECT_GRUPO_LESS
             = "SELECT id, nombre FROM eif209_1901_p01.grupo WHERE id <> ?;";
 
-    public String allGruposLess(int pid) {
+    public String allGruposLess(Usuario pid) {
         try (Connection cnx = db.getConnection(BASE_DATOS, USUARIO_BD, CLAVE_BD);
                 PreparedStatement stm = cnx.prepareStatement(SELECT_GRUPO_LESS)) {
             stm.clearParameters();
-            stm.setInt(1, pid);
+            stm.setInt(1, pid.getGrupo_id());
             ResultSet rs = stm.executeQuery();
             Grupo g = new Grupo();
             StringBuilder r = new StringBuilder();
@@ -508,6 +508,27 @@ public class GestorUsuarios {
         } catch (Exception e) {
             return e.getMessage();
         }
+    }
+
+    private static final String UPDATE_CLAVE
+            = "UPDATE `eif209_1901_p01`.`estudiante` SET `clave` = ? WHERE (`id` = ?);";
+
+    public boolean updateClave(Usuario u, String n) {
+        if (u != null && n != null) {
+            try (Connection cnx = db.getConnection(BASE_DATOS, USUARIO_BD, CLAVE_BD);
+                    PreparedStatement stm = cnx.prepareStatement(UPDATE_CLAVE)) {
+                stm.clearParameters();
+                stm.setString(1, n);
+                stm.setString(2, u.getId());
+                if (stm.executeUpdate() != 1) {
+                    throw new SQLException(String.format("No se puede cambiar la clave de: '%s'", u));
+                }
+                return true;
+            } catch (SQLException ex) {
+                System.out.print(ex.getMessage());
+            }
+        }
+        return false;
     }
 
 }

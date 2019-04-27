@@ -1,9 +1,7 @@
 /*
-    EIF209 - Programación 4 – Proyecto #1
-    Abril 2019
-    Autores:
-    - 116960863 Diego Babbb
-    - 116920756 Naomi Rojas
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
  */
 package servlet;
 
@@ -19,28 +17,43 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-public class ServletConsultarGrupos extends HttpServlet {
+/**
+ *
+ * @author Diego Babb
+ */
+public class ServletCambiarClave extends HttpServlet {
 
+    /**
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            HttpSession sesion = request.getSession(false);
-            if (sesion != null) {
-                Usuario u = (Usuario) sesion.getAttribute("usuario");
-                request.getSession(true).setAttribute("cursos", GestorUsuarios.obtenerInstancia().selectGrupoWhereEstudiante(u));
-                request.getRequestDispatcher("principal.jsp").forward(request, response);
-            } else {
-                request.setAttribute("error", "Su sesión ha expirado por inactividad.");
-                request.getRequestDispatcher("index.jsp").forward(request, response);
+            HttpSession sesion = request.getSession(true);
+            Usuario u = (Usuario) sesion.getAttribute("usuario");
+            String contraseña = request.getParameter("clave");
+            GestorUsuarios g = GestorUsuarios.obtenerInstancia();
+            if (contraseña != null) {
+                if (g.updateClave(u, contraseña)) {
+                    request.setAttribute("Msg", "Contraseña cambiada");
+                } else {
+                    request.setAttribute("Msg", "Error al cambiar la Clave");
+                }
             }
-
+            request.getRequestDispatcher("cambiarClave.jsp").forward(request, response);
         } catch (InstantiationException | ClassNotFoundException | IllegalAccessException ex) {
-            Logger.getLogger(ServletConsultarGrupos.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ServletCambiarClave.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
 
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *
