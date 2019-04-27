@@ -11,6 +11,7 @@
 <%@page import="java.util.Calendar"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.text.DateFormat"%>
+<%@taglib prefix="Etiquetas" uri="/WEB-INF/tlds/Etiquetas" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -21,18 +22,21 @@
         <link href="Css/stylePrincipal.css" rel="stylesheet" type="text/css"/>
         <title>Sistema de Grupos</title>
         <% response.setHeader("cache-control", "no-cache, no-store, must-revalidate"); %>
-
-    </head>
-    <body>
-        <div id="wrapper">
-            <div id="contents">
-                <div id="divicion">
-                    <div style="margin-bottom: 15px;">
+        <jsp:useBean id="usuario" class="Modelo.Usuario" scope="session"></jsp:useBean>
+        </head>
+        <body>
+            <div id="wrapper">
+                <div id="contents">
+                    <div id="divicion">
+                        <div style="margin-bottom: 15px;">
                         <%
                             if (request.getSession(false).getAttribute("usuario") != null) {
-                                Usuario u = (Usuario) request.getSession(false).getAttribute("usuario");%>
-                        <strong><%= u.toString()%></strong>
-                        <% }  %>
+                                Usuario u = (Usuario) request.getSession(false).getAttribute("usuario");
+                            } else {
+                                usuario = (Usuario) request.getSession(false).getAttribute("usuario");
+                            }
+                        %>
+                        <strong>${Etiquetas:descripcion(usuario)}</strong>
                     </div>
                     <div>
                         <form  id="botones" name="botones" method="POST">
@@ -70,7 +74,8 @@
                             <tr>
                                 <td>
                                     <% String msg = (String) request.getAttribute("Msg");
-                                    if (msg != null) {%>
+                                        if (msg
+                                                != null) {%>
                                     <strong><%= msg%></strong>
                                     <%}%>
                                 </td>
@@ -81,7 +86,8 @@
                 <div>
                     <table id="principal">
                         <tbody id="miscursos">
-                            <%if (request.getSession(false).getAttribute("usuario") == null) {
+                            <%if (request.getSession(
+                                        false).getAttribute("usuario") == null) {
                                     response.sendRedirect("index.jsp");
                                 } else { %>
                             <% GestorUsuarios g = GestorUsuarios.obtenerInstancia();%>

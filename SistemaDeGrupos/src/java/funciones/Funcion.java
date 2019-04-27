@@ -7,14 +7,16 @@
  */
 package funciones;
 
+import Modelo.Usuario;
 import java.io.Serializable;
 
 public class Funcion implements Serializable {
 
-    public static String mensaje(String e) {
-        if (e != null) {
-            return e;
-        }
-        return "";
+    public static String mensaje() {
+        return "Bafbjf";
+    }
+
+    public static String descripcion(Usuario u) {
+        return u.toString();
     }
 }

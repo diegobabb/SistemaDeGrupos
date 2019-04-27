@@ -6,7 +6,9 @@
     - 116920756 Naomi Rojas
 --%>
 
+<%@page import="Modelo.Usuario"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib prefix="Etiquetas" uri="/WEB-INF/tlds/Etiquetas" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -15,11 +17,15 @@
         <script src="Script/funciones.js" type="text/javascript"></script>
         <link href="Css/stylePrincipal.css" rel="stylesheet" type="text/css"/>
         <title>Sistema de Grupos</title>
+        <jsp:useBean id="usuario" class="Modelo.Usuario" scope="session"></jsp:useBean>
         <% response.setHeader("cache-control", "no-cache, no-store, must-revalidate"); %>
         <%
             if (request.getSession(true).getAttribute("usuario") == null) {
                 response.sendRedirect("index.jsp");
+            } else {
+                usuario = (Usuario) request.getSession(false).getAttribute("usuario");
             }
+
         %>
     </head>
     <body>
@@ -27,7 +33,7 @@
             <div id="contents">
                 <div id="divicion">
                     <div style="margin-bottom: 15px;">
-                        <strong><%=request.getSession(true).getAttribute("usuario").toString()%></strong>
+                        <strong>${Etiquetas:descripcion(usuario)}</strong>
                     </div>
                     <div>
                         <form  id="botones" name="botones" method="POST">
@@ -48,7 +54,7 @@
                         <table>
                             <thead>
                                 <tr>
-                                    <th>Ingresar nuevo contraseña</th>
+                                    <th>Ingresar nueva contraseña</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -57,7 +63,7 @@
                                 </tr>
                                 <tr>
                                     <td>
-                                        <input type="text" name="clave">
+                                        <input type="password" name="clave">
                                     </td>
                                 </tr>
                                 <tr>
