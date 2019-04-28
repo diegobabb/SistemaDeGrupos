@@ -24,21 +24,32 @@
             java.lang.String botones ()
         </function-signature>
     </function>
-    <!-- A validator verifies that the tags are used correctly at JSP
-          translation time. Validator entries look like this:
-       <validator>
-           <validator-class>com.mycompany.TagLibValidator</validator-class>
-           <init-param>
-              <param-name>parameter</param-name>
-              <param-value>value</param-value>
-           </init-param>
-       </validator>
-    -->
-    <!-- A tag library can register Servlet Context event listeners in
-         case it needs to react to such events. Listener entries look
-         like this:
-      <listener>
-          <listener-class>com.mycompany.TagLibListener</listener-class>
-      </listener>
-    -->
+    <function>
+        <name>descripcion</name>
+        <function-class>funciones.Funcion</function-class>
+        <function-signature>
+            java.lang.String descripcion(Modelo.Usuario)
+        </function-signature>
+    </function>
+    <function>
+        <name>text</name>
+        <function-class>funciones.Funcion</function-class>
+        <function-signature>
+            java.lang.String text (java.lang.String,java.lang.String)
+        </function-signature>
+    </function>
+    <function>
+        <name>boton</name>
+        <function-class>funciones.Funcion</function-class>
+        <function-signature>
+            java.lang.String boton (java.lang.String)
+        </function-signature>
+    </function>
+    <function>
+        <name>comboBox</name>
+        <function-class>funciones.Funcion</function-class>
+        <function-signature>
+            java.lang.String comboBox ()
+        </function-signature>
+    </function>
 </taglib>

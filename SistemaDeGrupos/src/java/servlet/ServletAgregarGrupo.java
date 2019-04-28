@@ -34,18 +34,19 @@ public class ServletAgregarGrupo extends HttpServlet {
                 GestorUsuarios g = GestorUsuarios.obtenerInstancia();
                 Usuario u = (Usuario) sesion.getAttribute("usuario");
                 g.updateUltimoAcceso(u);
-                String curso = request.getParameter("grupo");
-                if (g.getCupo(Integer.parseInt(curso)) < 5) {
-                    g.enlazar(u, Integer.parseInt(curso));
-                    u.setGrupo_id(Integer.parseInt(curso));
-                    g.incrementarCupo(Integer.parseInt(curso));
+                int curso = Integer.parseInt(request.getParameter("grupo"));
+                if (g.getCupo(curso) < 5) {
+                    g.enlazar(u, curso);
+                    g.desincrementarCupo(u.getGrupo_id());
+                    g.deleteGrupo();
+                    u.setGrupo_id(curso);
+                    g.incrementarCupo(curso);
                 }
                 r.put("miscursos", g.allGruposLess(u));
             } else {
                 request.setAttribute("error", "Su sesión ha expirado por inactividad.");
                 request.getRequestDispatcher("index.jsp").forward(request, response);
             }
-
             out.println(r);
         } catch (SQLException | InstantiationException | ClassNotFoundException | IllegalAccessException ex) {
             Logger.getLogger(ServletAgregarGrupo.class.getName()).log(Level.SEVERE, null, ex);

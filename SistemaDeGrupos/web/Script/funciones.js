@@ -54,13 +54,10 @@ function crearGrupo() {
 }
 
 function eliminar(row) {
-    var s = "ServletEliminarGrupo?grupo=" + row.toString();
-    requestJSON(actualizar, s);
-}
-function eliminaGrupo(row) {
     var s = "ServletDeleteGrupo?grupo=" + row.toString();
     requestJSON(actualizar, s);
 }
+
 function actualizar(data) {
     var refmiscursos = document.getElementById("miscursos");
     if (refmiscursos) {

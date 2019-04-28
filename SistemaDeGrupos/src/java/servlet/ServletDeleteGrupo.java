@@ -36,9 +36,10 @@ public class ServletDeleteGrupo extends HttpServlet {
             if (sesion != null) {
                 Usuario u = (Usuario) sesion.getAttribute("usuario");
                 g.updateUltimoAcceso(u);
-                int c = Integer.parseInt(request.getParameter("grupo"));
-                g.updateGrupoId(c);
-                g.deleteGrupo(c);
+                g.abodonarGrupo(u);
+                g.desincrementarCupo(u.getGrupo_id());
+                u.setGrupo_id(-1);
+                g.deleteGrupo();
             } else {
                 request.setAttribute("error", "Su sesión ha expirado por inactividad.");
                 request.getRequestDispatcher("index.jsp").forward(request, response);
@@ -46,7 +47,7 @@ public class ServletDeleteGrupo extends HttpServlet {
             r.put("miscursos", "&nbsp");
             out.println(r);
         } catch (InstantiationException | ClassNotFoundException | IllegalAccessException | SQLException ex) {
-            Logger.getLogger(ServletEliminarGrupo.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ServletDeleteGrupo.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

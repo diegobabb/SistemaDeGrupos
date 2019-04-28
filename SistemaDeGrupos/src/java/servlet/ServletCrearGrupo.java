@@ -36,6 +36,9 @@ public class ServletCrearGrupo extends HttpServlet {
                     if (gestor.getGrupo(n)) {
                         int t = gestor.crearGrupo(n);
                         gestor.enlazar(u, t);
+                        gestor.desincrementarCupo(u.getGrupo_id());
+                        gestor.deleteGrupo();
+                        u.setGrupo_id(t);
                         request.setAttribute("Msg", "Grupo agregado");
                     } else {
                         request.setAttribute("Msg", "Existe un grupo con ese nombre");
@@ -58,13 +61,7 @@ public class ServletCrearGrupo extends HttpServlet {
             throws ServletException, IOException {
         try {
             processRequest(request, response);
-        } catch (InstantiationException ex) {
-            Logger.getLogger(ServletCrearGrupo.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(ServletCrearGrupo.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            Logger.getLogger(ServletCrearGrupo.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
+        } catch (InstantiationException | ClassNotFoundException | IllegalAccessException | SQLException ex) {
             Logger.getLogger(ServletCrearGrupo.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -74,13 +71,7 @@ public class ServletCrearGrupo extends HttpServlet {
             throws ServletException, IOException {
         try {
             processRequest(request, response);
-        } catch (InstantiationException ex) {
-            Logger.getLogger(ServletCrearGrupo.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(ServletCrearGrupo.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            Logger.getLogger(ServletCrearGrupo.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
+        } catch (InstantiationException | ClassNotFoundException | IllegalAccessException | SQLException ex) {
             Logger.getLogger(ServletCrearGrupo.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

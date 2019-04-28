@@ -63,15 +63,13 @@ public class GestorUsuarios {
         return false;
     }
     private static final String UPDATE_GRUPOID
-            = "UPDATE  eif209_1901_p01 .`estudiante` SET `grupo_id`=null WHERE `grupo_id`= ?;";
-    private static final String DELETE_GRUPO
-            = "DELETE  FROM eif209_1901_p01 .`grupo` WHERE `id`=?";
+            = "UPDATE  eif209_1901_p01 .`estudiante` SET `grupo_id`=null WHERE `id`= ?;";
 
-    public void updateGrupoId(int c) throws SQLException {
+    public void updateGrupoId(Usuario c) throws SQLException {
         try (Connection cnx = db.getConnection(BASE_DATOS, USUARIO_BD, CLAVE_BD);
                 PreparedStatement stm = cnx.prepareStatement(UPDATE_GRUPOID)) {
             stm.clearParameters();
-            stm.setInt(1, c);
+            stm.setString(1, c.getId());
             if (stm.executeUpdate() != 1) {
                 throw new SQLException(String.format(
                         "No se puede updateGrupoId: '%d'", c));
@@ -79,15 +77,13 @@ public class GestorUsuarios {
         }
     }
 
-    public void deleteGrupo(int c) throws SQLException {
+    private static final String DELETE_GRUPO
+            = "DELETE FROM `eif209_1901_p01`.`grupo` WHERE (`cupo` = 0);";
+
+    public void deleteGrupo() throws SQLException {
         try (Connection cnx = db.getConnection(BASE_DATOS, USUARIO_BD, CLAVE_BD);
-                PreparedStatement stm = cnx.prepareStatement(DELETE_GRUPO)) {
-            stm.clearParameters();
-            stm.setInt(1, c);
-            if (stm.executeUpdate() != 1) {
-                throw new SQLException(String.format(
-                        "No se puede deleteGrupo: '%d'", c));
-            }
+                Statement stm = cnx.createStatement()) {
+            stm.executeUpdate(DELETE_GRUPO);
         }
     }
 
@@ -121,7 +117,6 @@ public class GestorUsuarios {
                 stm.clearParameters();
                 stm.setInt(1, c);
                 stm.setString(2, u.getId());
-
                 if (stm.executeUpdate() != 1) {
                     throw new SQLException(String.format(
                             "No se puede agregar al Grupo: '%s'", u));
@@ -132,6 +127,7 @@ public class GestorUsuarios {
         }
 
     }
+
     private static final String UPDATE_CUPO
             = "UPDATE eif209_1901_p01 .`grupo` SET `cupo` = cupo + 1 WHERE (`id` = ?);";
 
@@ -146,17 +142,20 @@ public class GestorUsuarios {
             }
         }
     }
+
     private static final String DESINCREMENTAR_CUPO
             = "update eif209_1901_p01 .`grupo` SET `cupo` = cupo - 1 WHERE (`id` = ?);";
 
     public void desincrementarCupo(int c) throws SQLException {
-        try (Connection cnx = db.getConnection(BASE_DATOS, USUARIO_BD, CLAVE_BD);
-                PreparedStatement stm = cnx.prepareStatement(DESINCREMENTAR_CUPO)) {
-            stm.clearParameters();
-            stm.setInt(1, c);
-            if (stm.executeUpdate() != 1) {
-                throw new SQLException(String.format(
-                        "No se puede incrementar: '%d'", c));
+        if (c != 0) {
+            try (Connection cnx = db.getConnection(BASE_DATOS, USUARIO_BD, CLAVE_BD);
+                    PreparedStatement stm = cnx.prepareStatement(DESINCREMENTAR_CUPO)) {
+                stm.clearParameters();
+                stm.setInt(1, c);
+                if (stm.executeUpdate() != 1) {
+                    throw new SQLException(String.format(
+                            "No se puede incrementar: '%d'", c));
+                }
             }
         }
     }
@@ -189,7 +188,7 @@ public class GestorUsuarios {
 
     public void cambiarClave(Usuario u, String clave) throws SQLException {
         try (Connection cnx = db.getConnection(BASE_DATOS, USUARIO_BD, CLAVE_BD);
-                PreparedStatement stm = cnx.prepareStatement(DESINCREMENTAR_CUPO)) {
+                PreparedStatement stm = cnx.prepareStatement(SET_CLAVE)) {
             stm.clearParameters();
             stm.setString(1, u.getId());
             stm.setString(2, clave);
@@ -262,6 +261,7 @@ public class GestorUsuarios {
         }
         return true;
     }
+
     private static final String SELECT_GRUPOID
             = "SELECT grupo_id FROM eif209_1901_p01.estudiante WHERE id = ?;";
 
@@ -310,12 +310,12 @@ public class GestorUsuarios {
     private static final String DESENLAZAR
             = "UPDATE `eif209_1901_p01`.`estudiante` SET `grupo_id` = NULL WHERE (`id` = ?);";
 
-    public void abodonarGrupo(String e) throws SQLException {
+    public void abodonarGrupo(Usuario e) throws SQLException {
         if (e != null) {
             try (Connection cnx = db.getConnection(BASE_DATOS, USUARIO_BD, CLAVE_BD);
                     PreparedStatement stm = cnx.prepareStatement(DESENLAZAR)) {
                 stm.clearParameters();
-                stm.setString(1, e);
+                stm.setString(1, e.getId());
                 if (stm.executeUpdate() != 1) {
                     throw new SQLException(String.format(
                             "No se puede agregar al Grupo: '%s'", e));
@@ -439,7 +439,7 @@ public class GestorUsuarios {
                 r.append("</thead>");
                 r.append("<tbody>");
                 r.append(estudiantes_x_grupo(id, cnx));
-                r.append("</tbody><tfooter><tr>Has click sobre el grupo para salirte</tr></tfooter></table></td>");
+                r.append("</tbody></table></td>");
             }
             return r.toString();
         } catch (Exception e) {
