@@ -42,7 +42,7 @@ public class Server extends HttpServlet {
             if (user != null) {
                 g.updateUltimoAcceso(user);
                 request.getSession(true).setAttribute("usuario", user);
-                request.getSession(true).setAttribute("cursos", GestorUsuarios.obtenerInstancia().selectGrupoWhereEstudiante(user));
+                request.getSession(true).setAttribute("cursos", g.selectGrupoWhereEstudiante(user));
                 request.getRequestDispatcher("/principal.jsp").forward(request, response);
             } else {
                 request.setAttribute("error", "Usuario invalido");

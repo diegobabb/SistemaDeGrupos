@@ -12,6 +12,7 @@
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.text.DateFormat"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib prefix="Etiquetas" uri="/WEB-INF/tlds/Etiquetas" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -38,11 +39,7 @@
                         <form  id="botones" name="botones" method="POST">
                             <table>
                                 <tr>
-                                    <td><input id="botonesInput" type="button" onclick="consultarUsuarios()" value="Consultar Usuarios"></td>
-                                    <td><input id="botonesInput" type="button" onclick="consultarGrupos()" value="Mi grupo"></td>
-                                    <td><input id="botonesInput" type="button" onclick="crearGrupo()" value="Crear o Ingresar a Grupo"></td>
-                                    <td><input id="botonesInput" type="button" onclick="cambiarClave()" value="Cambiar Contraseña"></td>
-                                    <td><input id="botonesInput" type="button" onclick="logout()" value="Salir"></td>
+                                    ${Etiquetas:botones()}
                                 </tr>
                             </table>
                         </form>
@@ -70,7 +67,7 @@
                             <tr>
                                 <td>
                                     <% String msg = (String) request.getAttribute("Msg");
-                                    if (msg != null) {%>
+                                        if (msg != null) {%>
                                     <strong><%= msg%></strong>
                                     <%}%>
                                 </td>
@@ -78,6 +75,7 @@
                         </table>
                     </form>
                 </div>
+                <div style="text-align: center;">Has click en un grupo para unirte</div>
                 <div>
                     <table id="principal">
                         <tbody id="miscursos">

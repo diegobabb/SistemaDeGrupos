@@ -4,10 +4,24 @@
     <short-name>Etiquetas</short-name>
     <uri>/WEB-INF/tlds/Etiquetas</uri>
     <function>
-        <name>mensaje</name>
+        <name>user</name>
         <function-class>funciones.Funcion</function-class>
         <function-signature>
-            java.lang.String mensaje (java.lang.String)
+            java.lang.String user ()
+        </function-signature>
+    </function>
+    <function>
+        <name>pass</name>
+        <function-class>funciones.Funcion</function-class>
+        <function-signature>
+            java.lang.String pass ()
+        </function-signature>
+    </function>
+    <function>
+        <name>botones</name>
+        <function-class>funciones.Funcion</function-class>
+        <function-signature>
+            java.lang.String botones ()
         </function-signature>
     </function>
     <!-- A validator verifies that the tags are used correctly at JSP

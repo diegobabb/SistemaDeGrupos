@@ -40,8 +40,7 @@
                                         Usuario
                                     </td>
                                     <td>
-                                        <input id="username" type="text"
-                                               size="30" name="usuario" autocomplete="off">
+                                        ${Etiquetas:user()}
                                     </td>
                                 </tr>
                                 <tr>
@@ -49,15 +48,14 @@
                                         Contraseña
                                     </td>
                                     <td>
-                                        <input id="password"
-                                               type="password" size="30" name="password" >
+                                        ${Etiquetas:pass()}
                                     </td>
                                 </tr>
                                 <tr>
                                     <td colspan="2" id="error">
                                         <%
-                                        String error = (String) request.getAttribute("error");
-                                        if (error != null) {%>
+                                            String error = (String) request.getAttribute("error");
+                                            if (error != null) {%>
                                         <%=error%>
                                         <%}%>
                                     </td>

@@ -427,24 +427,19 @@ public class GestorUsuarios {
             ResultSet rs = stm.executeQuery();
             Grupo g = new Grupo();
             StringBuilder r = new StringBuilder();
-            int cont = 1;
             if (rs.next()) {
                 int id = rs.getInt(1);
                 String n = rs.getString(2);
                 g.setId(id);
                 g.setNombre(n);
                 r.append(String.format("<td id=\"cursos\"><table onclick=\"eliminar('%d')\">", id));
-                r.append(String.format("<caption>GRUPO %d</caption>", cont++));
+                r.append("<caption>GRUPO</caption>");
                 r.append("<thead>");
                 r.append(g.toStringHTML());
                 r.append("</thead>");
                 r.append("<tbody>");
                 r.append(estudiantes_x_grupo(id, cnx));
-                r.append("</tbody></table></td>");
-                r.append("<tfooter>");
-                r.append(String.format(
-                        "<tr><td><input id=\"botonesInput\" type=\"button\" onclick=\"eliminaGrupo('%d')\" value=\"Eliminar\"></td></tr>", id));
-                r.append("</tfooter>");
+                r.append("</tbody><tfooter><tr>Has click sobre el grupo para salirte</tr></tfooter></table></td>");
             }
             return r.toString();
         } catch (Exception e) {
